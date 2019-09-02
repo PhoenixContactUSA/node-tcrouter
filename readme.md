@@ -12,12 +12,9 @@ This Nodejs package enables communication with the Phoenix Contact TC Router.  T
 * [TC Router Overview](#tc-router-device)
 * [Setup](#router-socket-setup)
 
-## Code
-* [Supporting Modules](#modules)
-    * [Email](#email)
-    * [SMS](#sms)
-    * [TCPServer](#tcp-server)
-    * [TC Router](#tc-router)
+## Module
+* [TCRouter](##TCRouter)
+
 
 <!-- /code_chunk_output -->
 
@@ -33,76 +30,7 @@ In order to communicate with the TCRouter Nodejs module, the TC Router must be c
 
 # Code
 
-## Supporting Modules
-
-The following modules are supporting functions for the main application.  Find the full code documentation in the links
-
-### Email
-
-Docs:   [Email](./docs/email.md)
-
-Description:  The Email javascript class stores the information necessary
-to send emails.  The class constructor will cleanse the incoming information or throw associated errors if necessary.  
-
-```javascript
-//Email(to,subject,body,cc)
-var email = new Email('zmink@phoenixcon.com','Test Subject','Test Body');
-
-//if uncertain about the quality of the input, place inside try catch
-try{
-    var mail = new Email('abcd','test','test2');    //will throw an error with invalid email address
-    let data = mail.getJSON();
-    console.log(data.to);
-}catch(e){
-    console.log(e); //email address abcd is invalid
-}
-
-```
-
-### SMS
-
-Docs:   [SMS](./docs/sms.md)
-
-Description:    The SMS javascript class cleans and maintains data necessary to send or receive SMS messages through the calling functions.  The SMS will format all phone numbers input into the expected format of the TC Router.  If the input is not valid, an error will be thrown
-
-```javascript
-//basic usage - SMS(phone number,message)
-var sms = new SMS('7176026963','Hello World');
-
-//if the input is unknown, use a try catch statement
-try {
-    let s = new SMS('abcd','Hello World');
-    let data = s.getJSON();
-    console.log(s.contactsArr); //will print all contacts if successful
-}catch(e){
-    console.log(e); //abcd is an invalid phone number
-}
-
-```
-
-### TCPServer
-
-Docs:   [TCPServer](./docs/TCPServer.md)
-
-Description:    The TCPServer class can create both a TCP server and a TCP Client which can be used to send or receive any basic TCP communication.
-
-```javascript
-
-//The TCPServer takes a configuration object as input
-var options: {
-    server: {
-        ip: '0.0.0.0', //expose port to all incoming traffic on localhost
-        port: 1543      //port to listen on
-    },
-    client: {
-        ip: '192.168.0.1',   //IP address target of the client
-        port: 1432
-    }
-}
-var tcpBroker = new TCPServer(options);
-```
-
-### TCRouter
+## TCRouter
 
 Docs:   [TCRouter](./docs/tcrouter.md)
 
@@ -110,7 +38,49 @@ Description:    The TCRouter class manages a single TC Router endpoint which can
 
 ```javascript
 //TCRouter takes 3 arguments
-//TCRouter(ip,remotePort,localPort)
-//the remote port is the open port on the TC Router and localPort is the port for receiving data if necessary
-var router = new TCRouter('192.168.0.1',1432,1432)
+//TCRouter(ip,remotePort,timeout)
+//ip - ip address of the TC Router
+//remotePort - open port on the TC Router (1432 by default)
+//timeout - timeout in millseconds before closing client connection
+var router = new TCRouter('192.168.0.1',1432,5000)
+```
+
+### Status Info
+
+```javascript
+const tcr = require('../index.js');
+
+var TCRouter = new tcr('192.168.1.1',1432,3000);
+
+//All info from the router
+TCRouter.getAllInfo().then((info)=>{
+    console.log(info);
+}).catch((e)=>{
+    console.log(e,e.stack)
+})
+
+//Upate mutable status info from the TC Router
+TCRouter.getMutableInfo().then((info)=>{
+    console.log(info);
+}).catch((e)=>{
+    console.log(e,e.stack)
+})
+
+```
+
+
+### Send a Text Message
+
+```javascript
+const tcr = require('../index.js');
+
+var TCRouter = new tcr('192.168.1.1',1432,3000);
+
+TCRouter.sendSMS('7176026963','Hello world from node-tcrouter')
+.then((res)=>{
+    console.log(res);
+}).catch((e)=>{
+    console.log(e);
+})
+
 ```

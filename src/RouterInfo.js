@@ -78,6 +78,24 @@ class RouterInfo {
         })
     }
 
+    async getMutableInfo(){
+        var infoReq =
+        XML.addHeader('<info>\
+        <radio/>\
+        <inet/>\
+        <io/>\
+        </info>');
+
+        return this.client.connect(this.port,this.host).then(()=>{
+            return this.client.write(infoReq,'utf-8').then(()=>{
+                return this.client.read(2000).then((res)=>{
+                    return this._parseInfoResponse(res.toString())
+                })
+            })
+        })
+     
+    }
+
     async _parseInfoResponse(xmlResponse){
 
         return XML.xmlToJSON(xmlResponse).then((data)=>{

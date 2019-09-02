@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\index.js",
+            "program": "${workspaceFolder}\\examples\\info.js",
             "args": [
                 "--broker","http://localhost:8080/conn"
                 ],
