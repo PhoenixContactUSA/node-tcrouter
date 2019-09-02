@@ -23,7 +23,7 @@ describe('Email() test cases', function(){
 
     //email throws exception on invalid 'nth' invalid email address
     it('throws an exception on multiple invalid email addresses', function(){
-        const to = 'zmink@phoenixcon.com,@wubba';
+        const to = '123123,@wubba';
         const subject = 'nothing';
         const body = 'abcdefg';
 
@@ -43,17 +43,17 @@ describe('Email() test cases', function(){
 
     //email throws exception on invalid 'nth' invalid email address
     it('throws an exception on multiple invalid email addresses', function(){
-        const cc = 'zmink@phoenixcon.com,@wubba';
+        const cc = 'asdfk@dfasdf.com,@wubba';
         const subject = 'nothing';
         const body = 'abcdefg';
-        const to = 'zmink@phoenixcon.com';
+        const to = 'asdfasdf@asdfasdf.com';
 
         expect(()=>new Email(to,subject,body,cc)).to.throw('Email address @wubba is invalid');
     })
 
     //email throws an exception on no subject
     it('throws an exception on undefined email subject', function(){
-        const to = 'zmink@phoenixcon.com';
+        const to = 'bbb@aaa.com';
         const subject = undefined;
         const body = '';
         
@@ -62,10 +62,10 @@ describe('Email() test cases', function(){
 
     //email getJSON
     it('calling getJSON returns json object',function(){
-        const t = 'zmink@phoenixcon.com';
+        const t = 'ddd@ccc.com';
         const subject = 'this is a test';
         const body = 'testing 123';
-        const cc = 'jkustan@phoenixcon.com';
+        const cc = 'aaa@bbb.com';
 
         var j = new Email(t,subject,body,cc);
         var res = j.getJSON();
