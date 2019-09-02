@@ -5,6 +5,7 @@ var SendSMS       = require('./src/SendSMS.js');
 var ReceiveSMS    = require('./src/ReceiveSMS.js');
 var RouterEmail   = require('./src/RouterEmail.js'); 
 var RouterVPN     = require('./src/RouterVPN.js');
+var RouterIO    = require('./src/RouterIO.js');
 
 const SMS       = require('./src/sms.js');
 const net       = require("net");
@@ -139,11 +140,11 @@ class TCRouter {
         this._pollingFunc = 0;  //holds a reference to the active polling function
 
         
-        
+        this.getIO                      = this.getIO.bind(this);
         this.sendSMS                    = this.sendSMS.bind(this);
         this.controlVPN                 = this.controlVPN.bind(this);
         this.getAllInfo                 = this.getAllInfo.bind(this);
-        this.controlDataConnection      = this.controlDataConnection.bind(this);
+        this.controlGprs                = this.controlGprs.bind(this);
         this.controlOutput              = this.controlOutput.bind(this);
 
         this._netSocket = new net.Socket()
@@ -271,18 +272,31 @@ class TCRouter {
     * @returns {Promise}
     */
     async controlOutput(index,value){
-        
+        const io  = new RouterIO(this.client.port.value,this.client.ip.value,this.client.timeout.value);
+        return io.controlOutput(index,value)
     }
 
     /**
     * @public
     * @memberof TCRouter
-    * @description Control data connection if configured correctly on device web page
+    * @description Control Gprs connection if configured correctly on device web page
     * @param {bool} state - turn connection on or off
     * @returns {Promise}
     */
-    async controlDataConnection(state){
+    async controlGprs(state){
+        const io = new RouterIO(this.client.port.value,this.client.ip.value,this.client.timeout.value);
+        return io.controlGprs(state);
+    }
 
+    /**
+     * @public
+     * @description Polls the TC Router for IO status
+     * @returns {Promise}
+     * @memberof TCRouter
+     */
+    async getIO(){
+        const io = new RouterIO(this.client.port.value,this.client.ip.value,this.client.timeout.value)
+        return io.getIO()
     }
 
 
