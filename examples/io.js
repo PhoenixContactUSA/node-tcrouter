@@ -11,7 +11,7 @@ TCRouter.getIO().then((res)=>{
 
 //Turn the built in digital output on or off
 //requires configuration from the web based management of the device
-TCRouter.controlOutput(1,false).then(()=>{
+TCRouter.controlOutput(1,true).then(()=>{
     console.log('Turned the digital output to off')
 }).catch((e)=>{
     console.log('Error controlling output',e);
