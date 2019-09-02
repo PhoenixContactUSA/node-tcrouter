@@ -36,6 +36,12 @@ Docs:   [TCRouter](./docs/tcrouter.md)
 
 Description:    The TCRouter class manages a single TC Router endpoint which can be initialized and then polled for status information.  This class also contains the interfaces necessary to send/receive SMS as well as sending Emails.
 
+First, install the package
+
+```bash
+npm i --save @phoenixcontactusa/node-tcrouter
+```
+
 ```javascript
 //TCRouter takes 3 arguments
 //TCRouter(ip,remotePort,timeout)
@@ -50,7 +56,7 @@ var router = new TCRouter('192.168.0.1',1432,5000)
 Execute getAllInfo() to load initial device and status information.  getMutableInfo should generally be used after the initial getAllInfo request so that only mutable data is requested
 
 ```javascript
-const tcr = require('../index.js');
+const tcr = require('@phoenixcontactusa/node-tcrouter');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
@@ -76,7 +82,7 @@ TCRouter.getMutableInfo().then((info)=>{
 A valid phone number must be entered.  This function will throw an error if an invalid number is entered
 
 ```javascript
-const tcr = require('../index.js');
+const tcr = require(' @phoenixcontactusa/node-tcrouter');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
@@ -94,7 +100,7 @@ TCRouter.sendSMS('1234567890','Hello world from node-tcrouter')
 The example below shows how to implement a fast connection check to the TC Router device.  This enables the IP and Port addresses to be tested before calling further functionality.
 
 ```javascript
-const tcr = require('../index.js');
+const tcr = require(' @phoenixcontactusa/node-tcrouter');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
@@ -114,7 +120,7 @@ TCRouter.testConnection().then((info)=>{
 To monitor incoming text messages, the node module pings the TC Router.  If the device has received a new message, checkForSmsRX() will retrieve this message.  Upon receipt of the message, an acknowledgement must be sent to clear the message from the TC Router memory.
 
 ```javascript
-const tcr = require('../index.js');
+const tcr = require('@phoenixcontactusa/node-tcrouter');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
@@ -141,7 +147,7 @@ The following example shows how to control and monitor the TC Router IO.  This f
 
 ```javascript
 
-const tcr = require('../index.js');
+const tcr = require(' @phoenixcontactusa/node-tcrouter');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
