@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\examples\\info.js",
+            "program": "${workspaceFolder}\\examples\\receiveSMS.js",
             "args": [
                 "--broker","http://localhost:8080/conn"
                 ],

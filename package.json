@@ -1,6 +1,6 @@
 {
   "name": "node-tcrouter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Communication and control of TC Router using socket server, XML api",
   "main": "index.js",
   "scripts": {

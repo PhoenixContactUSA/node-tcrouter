@@ -155,7 +155,9 @@ class TCRouter {
 
     }
 
-    /**
+    /*-----------------------Public Functions-------------------------------------*/
+
+        /**
      * @private
      * @description Creates a quick connection to the selected port of the TC Router to test if device communication is open
      *
@@ -163,7 +165,7 @@ class TCRouter {
      */
     async testConnection(){
         return new Promise((resolve,reject)=>{
-            return this.testClient.connect(this.port,this.ip).then(()=>{
+            return this.testClient.connect(this.client.port.value,this.client.ip.value).then(()=>{
                 this.client.connected.value = true;
                 this.client.status.value = "Connected";
                 resolve("Connected");
@@ -207,8 +209,6 @@ class TCRouter {
         })
     }
 
-    /*-----------------------Public Functions-------------------------------------*/
-
     /**
     * @public
     * @description Send an SMS message to the TC Router
@@ -232,6 +232,31 @@ class TCRouter {
     }
 
     /**
+     * @public
+     * @description Checks the TC router for an sms which has been received.  Returns the
+     * contents of the sms.  Should be acknowledged after receipt using the ackSmsRx function
+     * @memberof TCRouter
+     * @returns {Promise}
+     */
+    async checkForSmsRx(){
+        var rSMS = new ReceiveSMS(this.client.port.value,this.client.ip.value,this.client.timeout.value);
+        return rSMS.checkForSMS()
+
+    }
+
+    /**
+     * @public
+     * @description Acknowledges the last received sms - TC Router then deletes this message
+     * from its history and is no longer accessible.  Results of the message ack'd should be stored
+     * @returns {Promise}
+     * @memberof TCRouter
+     */
+    async ackSmsRx(){
+        var rSMS = new ReceiveSMS(this.client.port.value,this.client.ip.value,this.client.timeout.value);
+        return rSMS.ackLastSMS()
+    }
+
+    /**
     * @public
     * @description Control outputs on the Router
     * @param {integer} index - Index of the output on the router which should be controlled
@@ -249,8 +274,6 @@ class TCRouter {
     async controlDataConnection(state){
 
     }
-
-
 
 
     /**

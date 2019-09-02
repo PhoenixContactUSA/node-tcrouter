@@ -88,7 +88,7 @@ class ReceiveSMS {
                             let timestamp = o['$']['timestamp'];
                             var sms
                             try{
-                                sms = new SMS(number,message);
+                                sms = new SMS(number,message).getJSON();
                             }catch(e){
                                 reject('Error receiving SMS message: ' + e);
                             }

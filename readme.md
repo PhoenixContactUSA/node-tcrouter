@@ -47,6 +47,8 @@ var router = new TCRouter('192.168.0.1',1432,5000)
 
 ### Status Info
 
+Execute getAllInfo() to load initial device and status information.  getMutableInfo should generally be used after the initial getAllInfo request so that only mutable update is requested
+
 ```javascript
 const tcr = require('../index.js');
 
@@ -71,15 +73,59 @@ TCRouter.getMutableInfo().then((info)=>{
 
 ### Send a Text Message
 
+A valid phone number must be entered.  This function will throw an error if an invalid number is entered
+
 ```javascript
 const tcr = require('../index.js');
 
 var TCRouter = new tcr('192.168.1.1',1432,3000);
 
-TCRouter.sendSMS('7176026963','Hello world from node-tcrouter')
+TCRouter.sendSMS('1234567890','Hello world from node-tcrouter')
 .then((res)=>{
     console.log(res);
 }).catch((e)=>{
+    console.log(e);
+})
+
+```
+### Test Device Connection
+
+```javascript
+const tcr = require('../index.js');
+
+var TCRouter = new tcr('192.168.1.1',1432,3000);
+
+//Quickly test that the TC Router is available at the supplied ip address
+//and port
+TCRouter.testConnection().then((info)=>{
+    console.log(info);
+}).catch((e)=>{
+    console.log(e)
+})
+
+
+```
+
+### Check for an incoming text message
+
+```javascript
+const tcr = require('../index.js');
+
+var TCRouter = new tcr('192.168.1.1',1432,3000);
+
+TCRouter.checkForSmsRx().then((res)=>{
+    if (res.success === true){
+        console.log(res);
+        TCRouter.ackSmsRx().then((res)=>{
+            console.log('message deleted');
+        }).catch((e)=>{
+            console.log(e);
+        })
+    }else{
+        console.log('No new messages');
+    }
+    
+    }).catch((e)=>{
     console.log(e);
 })
 
