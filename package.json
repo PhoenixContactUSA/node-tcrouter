@@ -14,7 +14,6 @@
   "author": "Zachary Mink",
   "license": "MIT",
   "dependencies": {
-    "dslink": "^2.0.3",
     "email-validator": "^2.0.4",
     "npm": "^6.11.2",
     "phone": "^2.3.5",

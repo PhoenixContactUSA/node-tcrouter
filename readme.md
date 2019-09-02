@@ -168,3 +168,10 @@ TCRouter.controlGprs(false).then(()=>{
 })
 
 ```
+
+### Control VPN
+
+```javascript
+
+
+```

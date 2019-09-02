@@ -215,6 +215,20 @@ class TCRouter {
     }
 
     /**
+     * @public
+     * @description Send an email using the smtp client of the TC Router
+     * @param {String} to 
+     * @param {String} subject 
+     * @param {String} body 
+     * @param {String} cc
+     * @returns {Promise} 
+     */
+    async sendEmail(to,subject,body,cc){
+        const email = new RouterEmail(this.client.port.value,this.client.ip.value,this.client.timeout.value)
+        return email.sendEmail(to,subject,body,cc);
+    }
+
+    /**
     * @public
     * @description Send an SMS message to the TC Router
     * @memberof TCRouter
@@ -310,7 +324,8 @@ class TCRouter {
      * @returns {Promise}
      */
     async controlVPN(type,index,state){
-
+        var vpn = new RouterVPN(type,index,state);
+        return vpn.controlVPN(type,index,state)
     }
 
     /** 
