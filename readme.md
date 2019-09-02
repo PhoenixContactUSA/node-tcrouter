@@ -28,9 +28,9 @@ The [Webpage](https://www.phoenixcontact.com/online/portal/us/?uri=pxc-oc-itemde
 
 In order to communicate with the TCRouter Nodejs module, the TC Router must be correctly configured.  All of the features described in this documentation are provided by the 'Socket Server' feature of the TC Router.
 
-# Code
+## Examples
 
-## TCRouter
+### TCRouter Instantiation
 
 Docs:   [TCRouter](./docs/tcrouter.md)
 
@@ -47,7 +47,7 @@ var router = new TCRouter('192.168.0.1',1432,5000)
 
 ### Status Info
 
-Execute getAllInfo() to load initial device and status information.  getMutableInfo should generally be used after the initial getAllInfo request so that only mutable update is requested
+Execute getAllInfo() to load initial device and status information.  getMutableInfo should generally be used after the initial getAllInfo request so that only mutable data is requested
 
 ```javascript
 const tcr = require('../index.js');
@@ -88,7 +88,10 @@ TCRouter.sendSMS('1234567890','Hello world from node-tcrouter')
 })
 
 ```
+
 ### Test Device Connection
+
+The example below shows how to implement a fast connection check to the TC Router device.  This enables the IP and Port addresses to be tested before calling further functionality.
 
 ```javascript
 const tcr = require('../index.js');
@@ -108,6 +111,8 @@ TCRouter.testConnection().then((info)=>{
 
 ### Check for an incoming text message
 
+To monitor incoming text messages, the node module pings the TC Router.  If the device has received a new message, checkForSmsRX() will retrieve this message.  Upon receipt of the message, an acknowledgement must be sent to clear the message from the TC Router memory.
+
 ```javascript
 const tcr = require('../index.js');
 
@@ -124,7 +129,6 @@ TCRouter.checkForSmsRx().then((res)=>{
     }else{
         console.log('No new messages');
     }
-    
     }).catch((e)=>{
     console.log(e);
 })
