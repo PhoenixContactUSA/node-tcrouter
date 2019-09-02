@@ -160,8 +160,8 @@ class TCRouter {
         /**
      * @private
      * @description Creates a quick connection to the selected port of the TC Router to test if device communication is open
-     *
      * @memberof TCRouter
+     * @returns {Promise}
      */
     async testConnection(){
         return new Promise((resolve,reject)=>{
@@ -181,6 +181,8 @@ class TCRouter {
     /**
      * @private
      * @description Returns TC Router data after last update
+     * @memberof TCRouter
+     * @returns {Object}
      */
 
     getRouterData(){
@@ -195,6 +197,8 @@ class TCRouter {
     * @public
     * @description Request mutable status info from the router and return last known values
     * of static values
+    * @memberof TCRouter
+    * @returns {Promise}
     */
     async getMutableInfo(){
         var rInfo = new RouterInfo(this.client.port.value,this.client.ip.value,this.timeout);
@@ -212,8 +216,10 @@ class TCRouter {
     /**
     * @public
     * @description Send an SMS message to the TC Router
-    * @param {Array} contacts - 
+    * @memberof TCRouter
+    * @param {Array} contacts - comma separated list of phone numbers to message
     * @param {String} content - message content 
+    * @returns {Promise}
     */
     async sendSMS(contacts,content){
         return new Promise((resolve,reject)=>{
@@ -258,9 +264,11 @@ class TCRouter {
 
     /**
     * @public
+    * @memberof TCRouter
     * @description Control outputs on the Router
     * @param {integer} index - Index of the output on the router which should be controlled
     * @param {bool} value - False: turn output off, True: turn output on
+    * @returns {Promise}
     */
     async controlOutput(index,value){
         
@@ -268,8 +276,10 @@ class TCRouter {
 
     /**
     * @public
+    * @memberof TCRouter
     * @description Control data connection if configured correctly on device web page
     * @param {bool} state - turn connection on or off
+    * @returns {Promise}
     */
     async controlDataConnection(state){
 
@@ -278,10 +288,12 @@ class TCRouter {
 
     /**
      * @description Start or stop VPN connections
-     * @public  
+     * @public 
+     * @memberof TCRouter
      * @param {number} type 0:ipsec,1:openvpn
      * @param {number} index Index/Number/ID of the desired vpn tunnel
      * @param {boolean} state 0:turn off,1:turn on
+     * @returns {Promise}
      */
     async controlVPN(type,index,state){
 
@@ -289,7 +301,9 @@ class TCRouter {
 
     /** 
     * @public
+    * @memberof TCRouter
     * @description Build, send, update, and return all device 'info'
+    * @returns {Promise}
     */
     async getAllInfo(){
         var rInfo = new RouterInfo(this.client.port.value,this.client.ip.value,this.timeout);
