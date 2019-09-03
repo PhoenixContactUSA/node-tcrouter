@@ -11,6 +11,7 @@ class RouterInfo {
         this._netSocket = new net.Socket()
         this.client = new PromiseSocket(this._netSocket)
 
+
         //status information from the device
         this.info = {
             device: {
@@ -23,23 +24,15 @@ class RouterInfo {
             radio: {
                 provider:   {value:'',type: String},  //cellular provider
                 rssi:       {value:0, type: Number},  //cell signal strength in integer format
-                rssiDBM:    {get value(){             //cell signal strength in dBm
-                    return RouterInfo._rssiDecode(this.info.radio.rssi.value);
-                            },type:Number},
+                rssiDBM:    {type: Number},
                 creg:       {value:0, type: Number},
-                cregString: {get value(){
-                    return RouterInfo._cregToString(this.info.radio.creg.value);
-                            },type: String},
+                cregString: {type: String},
                 lac:        {value:'',type: String},
                 ci:         {value:'',type: String},
                 packet:     {value:0, type: Number},
-                packetString:{get value(){
-                    return RouterInfo._infoPacketToString(this.radio.packet.value);
-                            },type:String},
+                packetString:{type:String},
                 simstatus:  {value:0, type: Number},
-                simstatusString: {get value(){
-                    return RouterInfo._simStatusToString(this.radio.simstatus.value)
-                            },type:String},
+                simstatusString: {type:String},
                 simselect:  {value:0, type: Number},
             },
             //internet connection information
@@ -57,8 +50,34 @@ class RouterInfo {
             }
         }
 
-        this.getInfo = this.getInfo.bind(this);
+        //radioProperties
+        Object.defineProperty(this.info.radio.rssiDBM,'value',{
+            get: function(){
+                return this._rssiDecode()
+            }.bind(this)
+        });
+        Object.defineProperty(this.info.radio.cregString,'value',{
+            get: function(){
+                return this._cregToString();
+            }.bind(this)
+        });
+        Object.defineProperty(this.info.radio.packetString,'value',{
+            get: function(){
+                return this._infoPacketToString();
+            }.bind(this)
+        });
+        Object.defineProperty(this.info.radio.simstatusString,'value',{
+            get: function(){
+                return this._simStatusToString();
+            }.bind(this)
+        })
+        
         this._parseInfoResponse = this._parseInfoResponse.bind(this);
+        this._rssiDecode = this._rssiDecode.bind(this);
+        this._rssiToString = this._rssiToString.bind(this);
+        this._cregToString = this._cregToString.bind(this);
+        this._infoPacketToString = this._infoPacketToString.bind(this);
+        this._simStatusToString = this._simStatusToString.bind(this);
     }
 
     async getInfo(){
@@ -135,7 +154,8 @@ class RouterInfo {
     }
 
     //Returns rssi based on integer value from router
-    static _rssiDecode(input){
+    _rssiDecode(){
+        let input = this.info.radio.rssi.value;
         let int = parseInt(input);  //ensure integer 
         if (int < 31){
             //normalize
@@ -152,7 +172,8 @@ class RouterInfo {
         }
     }
 
-    static _rssiToString(val){
+    _rssiToString(){
+        let val = this.info.radio.rssi.value;
         if (val !== 99){
             return String(val) + " dBm";
         }else{
@@ -160,7 +181,8 @@ class RouterInfo {
         }
     }
 
-    static _cregToString(key){
+    _cregToString(){
+        let key = this.info.radio.creg.value;
         switch (key) {
             case 0:
                 return "Not registered, not searching for cellular network";
@@ -191,7 +213,8 @@ class RouterInfo {
      * @description Convert packet property of info to string
      * @param {number} int 
      */
-    static _infoPacketToString(int){
+    _infoPacketToString(){
+        let int = this.info.radio.packet.value;
         switch (int) {
             case 0:
                 return "Offline (no internet connection)";
@@ -230,7 +253,8 @@ class RouterInfo {
      * @description Convert sim status integer to string value
      * @param {number} int 
      */
-    static _simStatusToString(int) {
+    _simStatusToString(){
+        let int = this.info.radio.simstatus.value;
         switch (int) {
             case 0:
                 return "Unknown";
