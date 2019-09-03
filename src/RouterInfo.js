@@ -44,9 +44,9 @@ class RouterInfo {
             },
             //io - 
             io: {
-                gsm:    {value:0,type: Number},
-                inet:   {value:0,type: Number},
-                vpn:    {value:0,type: Number}
+                gsm:    {value:["off"],type: Array},
+                inet:   {value:["off"],type: Array},
+                vpn:    {value:["off"],type: Array}
             }
         }
 
