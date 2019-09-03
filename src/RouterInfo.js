@@ -24,21 +24,21 @@ class RouterInfo {
                 provider:   {value:'',type: String},  //cellular provider
                 rssi:       {value:0, type: Number},  //cell signal strength in integer format
                 rssiDBM:    {get value(){             //cell signal strength in dBm
-                    return Router_Info._rssiDecode(this.info.radio.rssi.value);
+                    return RouterInfo._rssiDecode(this.info.radio.rssi.value);
                             },type:Number},
                 creg:       {value:0, type: Number},
                 cregString: {get value(){
-                    return Router_Info._cregToString(this.info.radio.creg.value);
+                    return RouterInfo._cregToString(this.info.radio.creg.value);
                             },type: String},
                 lac:        {value:'',type: String},
                 ci:         {value:'',type: String},
                 packet:     {value:0, type: Number},
                 packetString:{get value(){
-                    return Router_Info._infoPacketToString(this.radio.packet.value);
+                    return RouterInfo._infoPacketToString(this.radio.packet.value);
                             },type:String},
                 simstatus:  {value:0, type: Number},
                 simstatusString: {get value(){
-                    return Router_Info._simStatusToString(this.radio.simstatus.value)
+                    return RouterInfo._simStatusToString(this.radio.simstatus.value)
                             },type:String},
                 simselect:  {value:0, type: Number},
             },
