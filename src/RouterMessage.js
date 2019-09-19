@@ -13,7 +13,7 @@ class RouterMessage {
             //if socket is connected, just resolve
             let _netSocket = new net.Socket();
             let client = new PromiseSocket(_netSocket)
-            client.connect(this.port,this.host).then(()=>{
+            client.connect(this.port,this.ip).then(()=>{
                 resolve(client);
             });
         })

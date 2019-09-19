@@ -7,9 +7,6 @@ const RouterMessage = require('./RouterMessage');
 class RouterIO extends RouterMessage {
     constructor(port,host,timeout){
         super(port,host,timeout)
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
 
         this._sendingMessage = false;
 
