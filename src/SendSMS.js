@@ -1,25 +1,30 @@
 //const Client = require('./TCP_Client');
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+// const net = require("net");
+// const {PromiseSocket, TimeoutError} = require("promise-socket");
+const RouterMessage = require('./RouterMessage');
 
-class SendSMS {
+
+class SendSMS extends RouterMessage {
     constructor(port,host,timeout,SMS){
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
+        super(port,host,timeout)
+        // super(port,host,timeout);
+        // this.port = port;
+        // this.host = host;
+        // this.timeout = timeout;
+        // this._netSocket = new net.Socket()
+        // this.client = new PromiseSocket(this._netSocket)
         this.SMS = SMS;
 
         this.send = this.send.bind(this);
     }
 
     async send(){
-        return this.client.connect(this.port,this.host).then(()=>{
-            this.client.write(SendSMS._buildSMS_XML(this.SMS),'utf-8')
-            return this.client.read(100).then((res)=>{
+        return this.connect().then((client)=>{
+            client.write(SendSMS._buildSMS_XML(this.SMS),'utf-8')
+            return client.read(100).then((res)=>{
+                this.done(client);
                 return this.constructor._parseSentSMS_Response(res.toString())
             })            
         })

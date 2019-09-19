@@ -1,17 +1,12 @@
 //const Client = require('./TCP_Client');
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
 const SMS           = require('../src/sms.js');
+const RouterMessage = require('./RouterMessage');
 
-class ReceiveSMS {
+class ReceiveSMS extends RouterMessage {
     constructor(port,host,timeout){
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
+        super(port,host,timeout)
        
     }
 
@@ -23,9 +18,10 @@ class ReceiveSMS {
         const message =
         XML.addHeader('<cmgr/>');
         
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(message,'utf-8').then(()=>{
-                return this.client.read(300).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(message,'utf-8').then(()=>{
+                return client.read(300).then((res)=>{
+                    this.done(client);
                     return this.constructor._parseReceivedSMS(res.toString())
                 })
             })
@@ -38,9 +34,10 @@ class ReceiveSMS {
      */
     async ackLastSMS(){
         let message = XML.addHeader('<cmga/>');
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(message,'utf-8').then(()=>{
-                return this.client.read(300).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(message,'utf-8').then(()=>{
+                return client.read(300).then((res)=>{
+                    this.done(client);
                     return this.constructor._parseAckSMS_Rx(res.toString())
                 })
             })

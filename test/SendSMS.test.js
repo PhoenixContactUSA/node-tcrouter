@@ -18,7 +18,7 @@ describe('SendSMS test cases', function(){
         const port = 6784;
 
         
-        let message = new SMS('1234567890','Hello from tcrouter-node');
+        let message = new SMS('7176026963','Hello from tcrouter-node');
         
 
         mockRouter.listen(port,ip,function(){

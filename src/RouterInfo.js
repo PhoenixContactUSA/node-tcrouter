@@ -1,16 +1,12 @@
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+// const net = require("net");
+// const {PromiseSocket, TimeoutError} = require("promise-socket");
+const RouterMessage = require('./RouterMessage');
 
-class RouterInfo {
+class RouterInfo extends RouterMessage {
     constructor(port,host,timeout){
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
-
+        super(port,host,timeout)
 
         //status information from the device
         this.info = {
@@ -89,9 +85,10 @@ class RouterInfo {
         <io/>\
         </info>');
 
-        return this.client.connect(this.port,this.host).then(()=>{
-            this.client.write(infoReq,'utf-8')
-            return this.client.read(2000).then((res)=>{
+        return this.connect().then((client)=>{
+            client.write(infoReq,'utf-8')
+            return client.read(2000).then((res)=>{
+                this.done(client);
                 return this._parseInfoResponse(res.toString())
             })
         })
@@ -105,9 +102,10 @@ class RouterInfo {
         <io/>\
         </info>');
 
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(infoReq,'utf-8').then(()=>{
-                return this.client.read(2000).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(infoReq,'utf-8').then(()=>{
+                return client.read(2000).then((res)=>{
+                    this.done(client);
                     return this._parseInfoResponse(res.toString())
                 })
             })

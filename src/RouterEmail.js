@@ -1,16 +1,13 @@
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+// const net = require("net");
+// const {PromiseSocket, TimeoutError} = require("promise-socket");
 const Email         = require('../src/email.js');
+const RouterMessage = require('./RouterMessage');
 
-class RouterEmail {
+class RouterEmail extends RouterMessage {
     constructor(port,host,timeout){
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
+        super(port,host,timeout)
 
         this.sendEmail = this.sendEmail.bind(this)
     }
@@ -33,9 +30,10 @@ class RouterEmail {
             }
 
             return resolve(this.constructor._buildEmailXML(email).then((data)=>{
-                return this.client.connect(this.port,this.host).then(()=>{
-                    return this.client.write(data,'utf-8').then(()=>{
-                        return this.client.read(500).then((res)=>{
+                return this.connect().then((client)=>{
+                    return client.write(data,'utf-8').then(()=>{
+                        return client.read(500).then((res)=>{
+                            this.done(client);
                             return this.constructor._parseSentEmailResponse(res.toString());
                         })
                     })

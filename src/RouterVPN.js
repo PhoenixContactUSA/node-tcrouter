@@ -1,15 +1,11 @@
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+const RouterMessage = require('./RouterMessage');
 
-class RouterVPN {
+class RouterVPN extends RouterMessage {
     constructor(port,host,timeout){
-        this.port = port;
-        this.host = host;
-        this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
+        super(port,host,timeout)
+
     }
 
      /**
@@ -34,9 +30,10 @@ class RouterVPN {
                 element =  o + ' no="' + index + '" value="' + value + '"/>'
                 let message = this._xmlHeader(element);
                 
-                return this.client.connect(this.port,this.host).then(()=>{
-                    return this.client.write(message,'utf-8').then(()=>{
-                        return this.client.read(500).then((res)=>{
+                return this.connect().then((client)=>{
+                    return client.write(message,'utf-8').then(()=>{
+                        return client.read(500).then((res)=>{
+                            this.done(client);
                             return this._parseVPN_ActionRx(res.toString())
                         })
                     })
