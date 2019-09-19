@@ -157,6 +157,42 @@ class TCRouter {
     }
 
     /*-----------------------Public Functions-------------------------------------*/
+    
+    /**
+     * Access the router's general status information immutably
+     *
+     * @returns
+     * @memberof TCRouter
+     */
+    getClientStatus(){
+        return {
+            ...this.client,
+            enabled: {
+                ...this.client.enabled
+            },
+            status: {
+                ...this.client.status
+            },
+            ip: {
+                ...this.client.ip
+            },
+            port: {
+                ...this.client.port
+            },
+            timeout: {
+                ...this.client.timeout
+            },
+            newlineChar: {
+                ...this.client.newlineChar
+            },
+            booleanVals: {
+                ...this.client.booleanVals
+            },
+            connected: {
+                ...this.client.connected
+            }
+        }
+    }
 
         /**
      * @private

@@ -10,6 +10,7 @@ class RouterIO {
         this.timeout = timeout;
         this._netSocket = new net.Socket()
         this.client = new PromiseSocket(this._netSocket)
+        this._sendingMessage = false;
 
         //two inputs and one output
         this.io = {
@@ -35,7 +36,8 @@ class RouterIO {
             }
         }
 
-        this._parseIOResponse = this._parseIOResponse.bind(this)
+        this._parseIOResponse = this._parseIOResponse.bind(this);
+        this.connect = connect.bind(this);
     }
 
 
@@ -62,10 +64,13 @@ class RouterIO {
      * 
      */
     async getIO(){
+        this._sendingMessage = true;
         const message = XML.addHeader('<io><output no="1"/><input no="1"/><input no="2"/></io>');
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(message,'utf-8').then(()=>{
-                return this.client.read(1000).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(message,'utf-8').then(()=>{
+                return client.read(1000).then((res)=>{
+                    client.destroy();
+                    client = null;
                     return this._parseIOResponse(res.toString())
                 }).catch((e)=>{
                     throw e
@@ -149,3 +154,33 @@ class RouterIO {
 }
 
 module.exports = RouterIO;
+
+async function connect(){
+    return new Promise((resolve,reject)=>{
+        //if socket is connected, just resolve
+        let _netSocket = new net.Socket();
+        let client = new PromiseSocket(_netSocket)
+        client.connect(this.port,this.host).then(()=>{
+            resolve(client);
+        });
+        // if (this.client.socket.readyState === "open"){
+        //     if (this._sendingMessage === true){
+        //         setTimeout(resolve,500);
+        //     }else{
+        //         resolve();
+        //     }
+        // }else if (this.client.socket.readyState === "opening"){
+        //     this.client.socket.on('ready',()=>{
+        //         if (this._sendingMessage === true){
+        //             setTimeout(resolve,500);
+        //         }else{
+        //             resolve();
+        //         }
+        //     })
+        // }else if (this.client.socket.destroyed === "closed") {
+        //     return this.client.connect(this.port,this.host).then(()=>{
+        //         resolve()
+        //     })
+        // }
+    })
+}
