@@ -1,15 +1,16 @@
 const builder = require('./Router_XML');
 const XML = new builder();
-const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+// const net = require("net");
+// const {PromiseSocket, TimeoutError} = require("promise-socket");
+const RouterMessage = require('./RouterMessage');
 
-class RouterIO {
+class RouterIO extends RouterMessage {
     constructor(port,host,timeout){
+        super(port,host,timeout)
         this.port = port;
         this.host = host;
         this.timeout = timeout;
-        this._netSocket = new net.Socket()
-        this.client = new PromiseSocket(this._netSocket)
+
         this._sendingMessage = false;
 
         //two inputs and one output
@@ -37,7 +38,7 @@ class RouterIO {
         }
 
         this._parseIOResponse = this._parseIOResponse.bind(this);
-        this.connect = connect.bind(this);
+        // this.connect = connect.bind(this);
     }
 
 
@@ -49,9 +50,10 @@ class RouterIO {
     async controlGprs(state){
         let val = this.constructor.boolToValueToString(state);
         let message = XML.addHeader('<io><gprs value="'+val+'"/></io>');
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(message,'utf-8').then(()=>{
-                return this.client.read(300).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(message,'utf-8').then(()=>{
+                return client.read(300).then((res)=>{
+                    this.done(client);
                     return this._parseIOResponse(res.toString())
                 })
             })
@@ -69,8 +71,7 @@ class RouterIO {
         return this.connect().then((client)=>{
             return client.write(message,'utf-8').then(()=>{
                 return client.read(1000).then((res)=>{
-                    client.destroy();
-                    client = null;
+                    this.done(client);
                     return this._parseIOResponse(res.toString())
                 }).catch((e)=>{
                     throw e
@@ -90,9 +91,10 @@ class RouterIO {
         let val = this.constructor.boolToValueToString(value);
         let message = XML.addHeader('<io><output no="' + index + '" value="' + val + '"/></io>');
         
-        return this.client.connect(this.port,this.host).then(()=>{
-            return this.client.write(message,'utf-8').then(()=>{
-                return this.client.read(500).then((res)=>{
+        return this.connect().then((client)=>{
+            return client.write(message,'utf-8').then(()=>{
+                return client.read(500).then((res)=>{
+                    this.done(client);
                     return this._parseIOResponse(res.toString())
                 }).catch((e)=>{
                     return e
@@ -154,33 +156,3 @@ class RouterIO {
 }
 
 module.exports = RouterIO;
-
-async function connect(){
-    return new Promise((resolve,reject)=>{
-        //if socket is connected, just resolve
-        let _netSocket = new net.Socket();
-        let client = new PromiseSocket(_netSocket)
-        client.connect(this.port,this.host).then(()=>{
-            resolve(client);
-        });
-        // if (this.client.socket.readyState === "open"){
-        //     if (this._sendingMessage === true){
-        //         setTimeout(resolve,500);
-        //     }else{
-        //         resolve();
-        //     }
-        // }else if (this.client.socket.readyState === "opening"){
-        //     this.client.socket.on('ready',()=>{
-        //         if (this._sendingMessage === true){
-        //             setTimeout(resolve,500);
-        //         }else{
-        //             resolve();
-        //         }
-        //     })
-        // }else if (this.client.socket.destroyed === "closed") {
-        //     return this.client.connect(this.port,this.host).then(()=>{
-        //         resolve()
-        //     })
-        // }
-    })
-}

@@ -111,4 +111,25 @@ describe('RouterIO test cases', function(){
 
     })
 
+    
+    it('Controls Output',function(){
+        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
+            //TC_Router.sendSMS(message);
+            var IOController = new RouterIO(TARGET.port,TARGET.ip,3000);
+            IOController.controlOutput(1,true).then((success)=>{
+                console.log(success);
+            }).catch((e)=>{
+                console.log(e);
+            })
+        });
+        mockRouter.on('connection',function(socket){
+            socket.on('data',function(data){
+                //expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+17176026963">This is the tcrouter dslink calling</cmgs>`)
+            })
+        })
+        //TC_Router.sendSMS(message);
+
+
+    })
+
 });
