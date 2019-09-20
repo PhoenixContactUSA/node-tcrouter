@@ -5,11 +5,11 @@ describe('SMS() test cases', function(){
 
     //returns a sanitized US phone number
     it('sanitizes a basic US phone number', function(){
-        let contact = '1111111111';
+        let contact = '361-346-9364';
         let message = '';
         var s = new SMS(contact,message);
         let data = s.getJSON();
-        expect(data.contactsCS).to.equal('+1111111111');
+        expect(data.contactsCS).to.equal('+13613469364');
     })
 
     //throws an error on invalid phone numbers
