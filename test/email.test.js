@@ -23,7 +23,7 @@ describe('Email() test cases', function(){
 
     //email throws exception on invalid 'nth' invalid email address
     it('throws an exception on multiple invalid email addresses', function(){
-        const to = '123123,@wubba';
+        const to = 'test@gmail.com,@wubba';
         const subject = 'nothing';
         const body = 'abcdefg';
 
