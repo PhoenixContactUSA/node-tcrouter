@@ -15,10 +15,6 @@ describe('RouterInfo test cases', function(){
         const ip = '127.0.0.1';
         const port = 6784;
 
-        
-        //let message = new SMS('7176026963','Hello from tcrouter-node');
-        
-
         mockRouter.listen(port,ip,function(){
             //TC_Router.sendSMS(message);
             var infoController = new RouterInfo(1432,'192.168.1.1',3000);

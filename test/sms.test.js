@@ -10,6 +10,20 @@ describe('SMS() test cases', function(){
         var s = new SMS(contact,message);
         let data = s.getJSON();
         expect(data.contactsCS).to.equal('+13613469364');
+    });
+
+    //returns a sanitized US phone number
+    it('Builds a json representation of a text message', function(){
+        let contact = '361-346-9364';
+        let message = 'Hello World';
+        var s = new SMS(contact,message);
+        let data = s.getJSON();
+        expect(data).to.deep.equal({
+            contactCS: '+13613469364',
+            content: 'Hello World',
+            multipleContacts: false,
+            contactsArr: ['+13613469364']
+        })
     })
 
     //throws an error on invalid phone numbers

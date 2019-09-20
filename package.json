@@ -4,7 +4,7 @@
   "description": "Communication and control of TC Router using socket server, XML api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "nyc mocha",
     "start": "node index.js --broker http://localhost:8080/conn",
     "docs": "npm run docs-router && npm run docs-email && npm run docs-sms",
     "docs-router": "jsdoc2md ./index.js > ./docs/TCRouter.md",
