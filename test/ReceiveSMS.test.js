@@ -7,64 +7,57 @@ const net = require('net');
 const ReceiveSMS = require('../src/ReceiveSMS');
 const mockRouter = net.createServer();
 
+const MOCK_DEVICE = {ip:'127.0.0.1',port: 7984};
+
 describe('ReceiveSMS test cases', function(){
 
     afterEach(function() {
         mockRouter.close();
     });
 
-    it('Receive SMS message',function(){
-        const ip = '127.0.0.1';
-        const port = 6784;
+    it('Receive SMS message',function(done){        
 
-        
-        //let message = new SMS('7176026963','Hello from tcrouter-node');
-        
-
-        mockRouter.listen(port,ip,function(){
+        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
-            var sms = new ReceiveSMS(1432,'192.168.1.1',3000);
+            var sms = new ReceiveSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
             sms.checkForSMS().then((success)=>{
                 console.log(success);
             }).catch((e)=>{
+                expect.fail();
+                done();
                 console.log(e);
             })
         });
         mockRouter.on('connection',function(socket){
             socket.on('data',function(data){
-                expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+17176026963">This is the tcrouter dslink calling</cmgs>`)
+                expect(data.toString()).to.equal(`<?xml version="1.0"?><cmgr/>`)
+                done();
             })
         })
-        //TC_Router.sendSMS(message);
 
 
     })
 
-    it('Acknowledge SMS receipt',function(){
-        const ip = '127.0.0.1';
-        const port = 6784;
+    it('Acknowledge SMS receipt',function(done){
 
-        
-        //let message = new SMS('7176026963','Hello from tcrouter-node');
-        
-
-        mockRouter.listen(port,ip,function(){
+        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
-            var sms = new ReceiveSMS(1432,'192.168.1.1',3000);
+            var sms = new ReceiveSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
             sms.ackLastSMS().then((success)=>{
                 console.log(success);
             }).catch((e)=>{
+                expect.fail();
+                done();
                 console.log(e);
             })
         });
         mockRouter.on('connection',function(socket){
             socket.on('data',function(data){
-                expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+17176026963">This is the tcrouter dslink calling</cmgs>`)
+                expect(data.toString()).to.equal(`<?xml version="1.0"?><cmga/>`)
+                done();
             })
         })
-        //TC_Router.sendSMS(message);
-
-
+       
     })
 
 });

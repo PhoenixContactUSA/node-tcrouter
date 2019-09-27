@@ -5,19 +5,21 @@ const net = require('net');
 const RouterInfo = require('../src/RouterInfo.js');
 const mockRouter = net.createServer();
 
+const MOCK_DEVICE = {ip:'127.0.0.1',port: 7884};
+
 describe('RouterInfo test cases', function(){
 
     afterEach(function() {
         mockRouter.close();
     });
 
-    it('Sends an accurately formed info message to the TC Router Socket',function(){
+    it('Sends an accurately formed info message to the TC Router Socket',function(done){
         const ip = '127.0.0.1';
         const port = 6784;
 
-        mockRouter.listen(port,ip,function(){
+        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
-            var infoController = new RouterInfo(1432,'192.168.1.1',3000);
+            var infoController = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
             infoController.getInfo().then((success)=>{
                 console.log(success);
             }).catch((e)=>{
@@ -26,7 +28,9 @@ describe('RouterInfo test cases', function(){
         });
         mockRouter.on('connection',function(socket){
             socket.on('data',function(data){
-                //expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+17176026963">This is the tcrouter dslink calling</cmgs>`)
+                console.log(data.toString());
+                expect(data.toString()).to.equal(`<?xml version="1.0"?><info>        <device/>        <radio/>        <inet/>        <io/>        </info>`)
+                done();
             })
         })
         //TC_Router.sendSMS(message);

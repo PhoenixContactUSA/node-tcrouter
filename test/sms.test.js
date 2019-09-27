@@ -25,10 +25,11 @@ describe('SMS() test cases', function(){
             throw e
         }
         expect(data).to.deep.equal({
-            contactCS: "+13613469364",
+            contactsCS: "+13613469364",
+            contactsArr: ["+13613469364"],
             content: "Hello World",
-            multipleContacts: false,
-            contactsArr: ['+13613469364']
+            multipleContacts: false
+            
         })
     })
 
