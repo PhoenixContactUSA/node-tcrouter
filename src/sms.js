@@ -16,7 +16,7 @@ class SMS {
         });
         this.contacts = numbers;
         this.content = content;
-        this.multipleContacts = (contacts.length > 1) ? true:false
+        this.multipleContacts = (numbers.length > 1) ? true:false
     }
 
     getJSON(){

@@ -18,9 +18,15 @@ describe('SMS() test cases', function(){
         let message = 'Hello World';
         var s = new SMS(contact,message);
         let data = s.getJSON();
+        try{
+
+        }catch(e){
+            console.log(data);
+            throw e
+        }
         expect(data).to.deep.equal({
-            contactCS: '+13613469364',
-            content: 'Hello World',
+            contactCS: "+13613469364",
+            content: "Hello World",
             multipleContacts: false,
             contactsArr: ['+13613469364']
         })
