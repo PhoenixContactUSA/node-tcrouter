@@ -56,6 +56,7 @@ describe("RouterIO test cases", function(done) {
 
   it("Can send multiple status messages", function(done) {
     const mockRouter = net.createServer();
+    var successCount = 0;
 
     mockRouter.listen(MOCK_DEVICE.port + 2, MOCK_DEVICE.ip, function() {
       var IOController = new RouterIO(MOCK_DEVICE.port + 2, MOCK_DEVICE.ip, 3000);
@@ -83,7 +84,10 @@ describe("RouterIO test cases", function(done) {
         expect(data.toString()).to.equal(
           `<?xml version="1.0"?><io><output no="1"/><input no="1"/><input no="2"/></io>`
         );
-        done();
+        successCount = successCount + 1;
+        if (successCount === 2){
+            done();
+        }
       });
     });
   });
