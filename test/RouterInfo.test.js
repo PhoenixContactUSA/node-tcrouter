@@ -9,10 +9,6 @@ const MOCK_DEVICE = {ip:'127.0.0.1',port: 7884};
 
 describe('RouterInfo test cases', function(){
 
-    afterEach(function() {
-        mockRouter.close();
-    });
-
     it('Sends an accurately formed info message to the TC Router Socket',function(done){
         const mockRouter = net.createServer();
 

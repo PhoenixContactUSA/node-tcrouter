@@ -11,10 +11,6 @@ const MOCK_DEVICE = {ip:'127.0.0.1',port: 7984};
 
 describe('ReceiveSMS test cases', function(){
 
-    afterEach(function() {
-        mockRouter.close();
-    });
-
     it('Receive SMS message',function(done){
         const mockRouter = net.createServer();        
 

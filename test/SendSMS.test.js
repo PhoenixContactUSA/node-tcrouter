@@ -11,10 +11,6 @@ const MOCK_DEVICE = {ip:'127.0.0.1',port: 7984};
 
 describe('SendSMS test cases', function(){
 
-    afterEach(function() {
-        mockRouter.close();
-    });
-
     it('Sends an accurately formed SMS message to the TC Router Socket',function(){
 
         
