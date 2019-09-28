@@ -14,8 +14,7 @@ describe('RouterInfo test cases', function(){
     });
 
     it('Sends an accurately formed info message to the TC Router Socket',function(done){
-        const ip = '127.0.0.1';
-        const port = 6784;
+        const mockRouter = net.createServer();
 
         mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
@@ -33,8 +32,6 @@ describe('RouterInfo test cases', function(){
                 done();
             })
         })
-        //TC_Router.sendSMS(message);
-
 
     })
 

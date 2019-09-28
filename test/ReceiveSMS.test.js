@@ -5,7 +5,7 @@ var expect    = require('chai').expect;
 const SMS     = require('../src/sms.js');
 const net = require('net');
 const ReceiveSMS = require('../src/ReceiveSMS');
-const mockRouter = net.createServer();
+
 
 const MOCK_DEVICE = {ip:'127.0.0.1',port: 7984};
 
@@ -15,7 +15,8 @@ describe('ReceiveSMS test cases', function(){
         mockRouter.close();
     });
 
-    it('Receive SMS message',function(done){        
+    it('Receive SMS message',function(done){
+        const mockRouter = net.createServer();        
 
         mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
@@ -39,6 +40,7 @@ describe('ReceiveSMS test cases', function(){
     })
 
     it('Acknowledge SMS receipt',function(done){
+        const mockRouter = net.createServer();
 
         mockRouter.listen(MOCK_DEVICE.port+1,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);

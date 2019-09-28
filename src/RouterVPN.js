@@ -11,14 +11,14 @@ class RouterVPN extends RouterMessage {
      /**
      * @description Start or stop VPN connections
      * @public  
-     * @param {number} type 0:ipsec,1:openvpn
+     * @param {number} type 1:ipsec,2:openvpn
      * @param {number} index Index/Number/ID of the desired vpn tunnel
      * @param {boolean} state 0:turn off,1:turn on
      */
     async controlVPN(type,index,state){
         return new Promise((resolve,reject)=>{
-            if ((type !== 1) || (type!== 2)){
-                reject('VPN Control: VPN type must be 0 (ipsec) or 1 (openvpn)');
+            if ((type !== 1) && (type!== 2)){
+                reject('VPN Control: VPN type must be 1 (ipsec) or 2 (openvpn)');
             }else{
                 var element,o
                 let value = (state === true) ? "on":"off";
@@ -28,7 +28,7 @@ class RouterVPN extends RouterMessage {
                     o = '<openvpn';
                 }
                 element =  o + ' no="' + index + '" value="' + value + '"/>'
-                let message = this._xmlHeader(element);
+                let message = XML.addHeader(element);
                 
                 return this.connect().then((client)=>{
                     return client.write(message,'utf-8').then(()=>{
