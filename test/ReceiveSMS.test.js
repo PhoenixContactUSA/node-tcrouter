@@ -40,9 +40,9 @@ describe('ReceiveSMS test cases', function(){
 
     it('Acknowledge SMS receipt',function(done){
 
-        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
+        mockRouter.listen(MOCK_DEVICE.port+1,MOCK_DEVICE.ip,function(){
             //TC_Router.sendSMS(message);
-            var sms = new ReceiveSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+            var sms = new ReceiveSMS(MOCK_DEVICE.port+1,MOCK_DEVICE.ip,3000);
             sms.ackLastSMS().then((success)=>{
                 console.log(success);
             }).catch((e)=>{
