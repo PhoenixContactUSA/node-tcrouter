@@ -7,7 +7,7 @@ const MOCK_DEVICE = { ip: "127.0.0.1", port: 7784 };
 
 describe("RouterIO test cases", function(done) {
 
-  it("Sends an accurately formed control output message to the TC Router Socket", function() {
+  it("Sends an accurately formed control output message to the TC Router Socket", function(done) {
     const mockRouter = net.createServer();
     mockRouter.listen(MOCK_DEVICE.port, MOCK_DEVICE.ip, function() {
       var IOController = new RouterIO(MOCK_DEVICE.port, MOCK_DEVICE.ip, 3000);
