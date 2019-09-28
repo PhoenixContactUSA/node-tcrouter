@@ -4,7 +4,8 @@
   "description": "Communication and control of TC Router using socket server, XML api",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --exit",
+    "test": "nyc --reporter=lcov mocha --exit",
+    "coverage": "codecov",
     "start": "node index.js --broker http://localhost:8080/conn",
     "docs": "npm run docs-router && npm run docs-email && npm run docs-sms",
     "docs-router": "jsdoc2md ./index.js > ./docs/TCRouter.md",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "codecov": "^3.6.1",
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1"
