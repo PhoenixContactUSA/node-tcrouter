@@ -7,7 +7,7 @@ const net = require('net');
 const SendSMS = require('../src/SendSMS');
 const mockRouter = net.createServer();
 
-const MOCK_DEVICE = {ip:'127.0.0.1',port: 7984};
+const MOCK_DEVICE = {ip:'127.0.0.1',port: 6924};
 
 describe('SendSMS test cases', function(){
 
