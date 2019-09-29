@@ -5,6 +5,7 @@
 ## Node TC Router
 
 [![Build Status](https://travis-ci.org/PhoenixContactUSA/node-tcrouter.svg?branch=master)](https://travis-ci.org/PhoenixContactUSA/node-tcrouter)
+[![codecov](https://codecov.io/gh/PhoenixContactUSA/node-tcrouter/branch/master/graph/badge.svg)](https://codecov.io/gh/PhoenixContactUSA/node-tcrouter)
 
 This Nodejs package enables communication with the Phoenix Contact TC Router. The TC Router is a 4G industrial router with built in firewall and networking services. This driver supports basic status information collection, controlling and reading IO, sending and receiving text messages, and sending emails.
 
