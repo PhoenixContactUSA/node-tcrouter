@@ -1,7 +1,5 @@
 # Receive Text Messages
 
-
-
 #### Check for an incoming text message
 
 To monitor incoming text messages, the node module pings the TC Router. If the device has received a new message, checkForSmsRX\(\) will retrieve this message. Upon receipt of the message, an acknowledgement must be sent to clear the message from the TC Router memory.

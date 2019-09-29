@@ -1,10 +1,8 @@
 # Status Information
 
+### All Status Information
 
-
-#### Status Info
-
-Execute getAllInfo\(\) to load initial device and status information. getMutableInfo should generally be used after the initial getAllInfo request so that only mutable data is requested
+Execute getAllInfo\(\) to load all available device and status information.
 
 ```javascript
 const tcr = require("@phoenixcontactusa/node-tcrouter");
@@ -16,10 +14,17 @@ TCRouter.getAllInfo()
   .then(info => {
     console.log(info);
   })
+  //Catch networking or process errors
   .catch(e => {
     console.log(e, e.stack);
   });
+```
 
+### Mutable Information
+
+getMutableInfo should be used after the initial getAllInfo request so that only mutable data is requested.
+
+```javascript
 //Upate mutable status info from the TC Router
 TCRouter.getMutableInfo()
   .then(info => {

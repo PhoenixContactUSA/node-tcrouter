@@ -1,7 +1,5 @@
 # Sending Text Messages
 
-
-
 #### Send a Text Message
 
 A valid phone number must be entered. This function will throw an error if an invalid number is entered
