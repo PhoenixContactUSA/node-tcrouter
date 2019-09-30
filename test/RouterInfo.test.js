@@ -55,6 +55,104 @@ describe('RouterInfo test cases', function(){
             })
         })
 
-    })
+    });
+
+    it('Updates state from all info response',function(done){
+        
+        //sinon.stub(RouterInfo.prototype,'_parseInfoResponse').callsFake(()=>1);
+
+        const infoController = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+        infoController._parseInfoResponse(mockGetInfoResponse).then(()=>{
+
+            expect(infoController.info.device.serialno.value).to.equal("3034095087");
+            expect(infoController.info.device.hardware.value).to.equal("D");
+            expect(infoController.info.device.firmware.value).to.equal("2.05.2");
+            expect(infoController.info.device.wbm.value).to.equal("1.71.2");
+            done();
+        })
+
+    });
+
+    it('RSSI can be decoded into units of dBm',function(done){
+        
+        //sinon.stub(RouterInfo.prototype,'_parseInfoResponse').callsFake(()=>1);
+
+        const infoController = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+        infoController._parseInfoResponse(mockGetInfoResponse).then(()=>{
+
+            expect(infoController._rssiDecode()).to.equal(-79);
+            done();
+        })
+
+    });
+
+     it('RSSI can be decoded into a string in units of dBm',function(done){
+        
+        //sinon.stub(RouterInfo.prototype,'_parseInfoResponse').callsFake(()=>1);
+
+        const infoController = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+        infoController._parseInfoResponse(mockGetInfoResponse).then(()=>{
+
+            expect(infoController._rssiToString()).to.equal("-79 dBm");
+            done();
+        })
+
+    });
 
 });
+
+
+
+const mockGetInfoResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<result><info><device><serialno>3034095087</serialno>
+<hardware>D</hardware>
+<firmware>2.05.2</firmware>
+<wbm>1.71.2</wbm>
+<imei>354228086778452</imei>
+</device>
+<radio><provider>Verizon</provider>
+<rssi>17</rssi>
+<creg>1</creg>
+<lac>0000</lac>
+<ci>00A02020</ci>
+<packet>8</packet>
+<simstatus>5</simstatus>
+<simselect>1</simselect>
+</radio>
+<inet><ip>100.69.140.34</ip>
+<rx_bytes>2217396</rx_bytes>
+<tx_bytes>2774096</tx_bytes>
+<mtu>1500</mtu>
+</inet>
+<io><gsm>on</gsm>
+<inet>on</inet>
+<vpn>off</vpn>
+</io>
+</info>
+</result>
+`;
+
+const getMutableInfoResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<result><info><radio><provider>Verizon</provider>
+<rssi>18</rssi>
+<creg>1</creg>
+<lac>0000</lac>
+<ci>00A02020</ci>
+<packet>8</packet>
+<simstatus>5</simstatus>
+<simselect>1</simselect>
+</radio>
+<inet><ip>100.69.140.34</ip>
+<rx_bytes>2217396</rx_bytes>
+<tx_bytes>2774390</tx_bytes>
+<mtu>1500</mtu>
+</inet>
+<io><gsm>on</gsm>
+<inet>on</inet>
+<vpn>off</vpn>
+</io>
+</info>
+</result>`;

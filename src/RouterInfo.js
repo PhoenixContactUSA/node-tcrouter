@@ -171,7 +171,7 @@ class RouterInfo extends RouterMessage {
     }
 
     _rssiToString(){
-        let val = this.info.radio.rssi.value;
+        let val = this._rssiDecode();
         if (val !== 99){
             return String(val) + " dBm";
         }else{
