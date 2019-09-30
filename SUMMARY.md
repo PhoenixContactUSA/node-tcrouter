@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Overview](README.md)
+* [Welcome](README.md)
 * [Getting Started](getting-started.md)
 * [Javascript Docs](docs/README.md)
   * [TCRouter](docs/tcrouter.md)
@@ -17,5 +17,13 @@
 
 ## Hardware
 
-* [Untitled](hardware/untitled.md)
+* [Overview](hardware/untitled.md)
+
+## Setup
+
+* [Setup Overview](setup/device-setup.md)
+* [Socket Server](setup/socket-server.md)
+* [Enable SMS](setup/enable-sms.md)
+* [Enable Email](setup/enable-email.md)
+* [Setup VPN](setup/setup-vpn.md)
 

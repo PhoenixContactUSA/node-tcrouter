@@ -2,7 +2,7 @@
 
 #### Test Device Connection
 
-The example below shows how to implement a fast connection check to the TC Router device. This enables the IP and Port addresses to be tested before calling further functionality.
+The example below shows how to implement a simple connection check to the TC Router device. This enables network connectivity to be tested directly without having to call other functionality.
 
 ```javascript
 const tcr = require(" @phoenixcontactusa/node-tcrouter");
