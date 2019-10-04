@@ -10,7 +10,9 @@
     "docs": "npm run docs-router && npm run docs-email && npm run docs-sms",
     "docs-router": "jsdoc2md ./index.js > ./docs/TCRouter.md",
     "docs-sms": "jsdoc2md ./src/sms.js > ./docs/sms.md",
-    "docs-email": "jsdoc2md ./src/email.js > ./docs/email.md"
+    "docs-email": "jsdoc2md ./src/email.js > ./docs/email.md",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Zachary Mink",
   "license": "MIT",
@@ -21,7 +23,8 @@
     "promise-socket": "^6.0.0",
     "validate-ip-node": "^1.0.6",
     "winston": "^3.1.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "snyk": "^1.231.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -30,5 +33,6 @@
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
     "sinon": "^7.5.0"
-  }
+  },
+  "snyk": true
 }
