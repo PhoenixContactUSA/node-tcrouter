@@ -67,6 +67,23 @@ describe('ReceiveSMS test cases', function(){
             expect(e).to.exist;
             done();
         })
+    });
+
+    it('Returns JSON representation of received sms message',(done)=>{
+        var sms = new ReceiveSMS(MOCK_DEVICE.port+3,MOCK_DEVICE.ip,3000);
+
+        sms.constructor._parseReceivedSMS(`<?xml version=“1.0“ encoding=“UTF-8“?>
+        <result>
+        <cmgr origaddr="+12025550179"
+        timestamp="14/06/30,10:01:05+08">SMS message</cmgr>
+        </result>`).then((res)=>{
+            expect(res.SMS.contactsCS).to.be.equal("+12025550179");
+            expect(res.SMS.content).to.be.equal("SMS message");
+            done();
+        }).catch((e)=>{
+            expect.fail();
+            done();
+        })
     })
 
 });
