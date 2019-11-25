@@ -15,6 +15,8 @@ class RouterMessage {
             let client = new PromiseSocket(_netSocket)
             client.connect(this.port,this.ip).then(()=>{
                 resolve(client);
+            }).catch((e)=>{
+                reject(e);
             });
         })
     }
