@@ -71,7 +71,7 @@ class ReceiveSMS extends RouterMessage {
                             if (error === "1"){
                                 r = 'No SMS message received';
                             }else if (error === "2"){
-                                r = 'try again later';
+                                r = 'Try again later';
                             }else if (error === "3"){
                                 r = 'Communication problem with the radio engine';
                             }
