@@ -58,4 +58,15 @@ describe('ReceiveSMS test cases', function(){
        
     })
 
+    it('Throws an error if returned unable to parse returned sms message',(done)=>{
+
+        var sms = new ReceiveSMS(MOCK_DEVICE.port+2,MOCK_DEVICE.ip,3000);
+        sms.constructor._parseReceivedSMS(`<?xml version="1.0"?>\n<cmga srcaddr="+12025550154">Hello from tcrouter-node</cmga>`)
+        .then(()=>{expect.fail();done();})
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+    })
+
 });
