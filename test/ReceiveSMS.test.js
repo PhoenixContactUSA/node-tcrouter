@@ -119,7 +119,7 @@ describe('ReceiveSMS test cases', function(){
     })
 
     it('Returns sms system error from router',(done)=>{
-        var sms = new ReceiveSMS(MOCK_DEVICE.port+5,MOCK_DEVICE.ip,3000);
+        var sms = new ReceiveSMS(MOCK_DEVICE.port+6,MOCK_DEVICE.ip,3000);
 
         sms.constructor._parseReceivedSMS(`<?xml version="1.0" encoding="UTF-8"?>
             <result>
@@ -127,6 +127,22 @@ describe('ReceiveSMS test cases', function(){
             </result>`).then((res)=>{
                 expect(res.message).to.be.equal("Communication problem with the radio engine");
                 expect(res.success).to.be.equal(false);
+                done();
+        }).catch((e)=>{
+            expect.fail();
+            done();
+        })
+    })
+
+    it('Parses sms acknowledgement',(done)=>{
+        var sms = new ReceiveSMS(MOCK_DEVICE.port+6,MOCK_DEVICE.ip,3000);
+
+        sms.constructor._parseAckSMS_Rx(`<?xml version="1.0" encoding="UTF-8"?>
+            <result>
+            <cmga>ok</cmga>
+            </result>`).then((res)=>{
+                //expect(res.message).to.be.equal("Communication problem with the radio engine");
+                expect(res.success).to.be.equal(true);
                 done();
         }).catch((e)=>{
             expect.fail();
