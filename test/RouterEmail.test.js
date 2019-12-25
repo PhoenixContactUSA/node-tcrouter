@@ -77,4 +77,18 @@ describe('SendEmail test cases', function(){
         });
     })
 
+    it('Handles no email field', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 4,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><result>done</result>`)
+        .then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+    })
+
 });
