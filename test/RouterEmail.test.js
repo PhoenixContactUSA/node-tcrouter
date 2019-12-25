@@ -91,4 +91,22 @@ describe('SendEmail test cases', function(){
         })
     })
 
+    it('Parses a failure message from the router if email send failed', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 4,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?>
+        <result>
+        <email error="3">transmission failed</email>
+        </result>`)
+        .then((res)=>{
+            expect(res.success).to.equal(false);
+            expect(res.message).to.equal("transmission failed");
+            done();
+        })
+        .catch((e)=>{
+            expect.fail();
+            done();
+        })
+    })
+
 });

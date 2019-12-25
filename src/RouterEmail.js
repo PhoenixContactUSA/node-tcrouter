@@ -77,7 +77,7 @@ class RouterEmail extends RouterMessage {
                             message: message
                         };
                         
-                        resolve('Email send failed',res);
+                        resolve(res);
                         
                     }else{
                         if (o === 'done'){
