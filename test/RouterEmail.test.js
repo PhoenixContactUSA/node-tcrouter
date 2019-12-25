@@ -11,6 +11,20 @@ const MOCK_DEVICE = {ip:'127.0.0.1',port: 8884};
 
 describe('SendEmail test cases', function(){
 
+    it('Throws an error if the email input is bad',function(done){
+        var routerEmail = new RouterEmail(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+        routerEmail.sendEmail('','bloop','blop').then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+
+
+    })
+
     it('Sends an accurately formed Email message to the TC Router Socket',function(done){        
 
         mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(done){

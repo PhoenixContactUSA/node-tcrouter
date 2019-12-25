@@ -26,7 +26,7 @@ class RouterEmail extends RouterMessage {
             try {
                 email = new Email(to,subject,body,cc);
             } catch (error) {
-                reject('Failed to build email from source',error);
+                reject(error);
             }
 
             return resolve(this.constructor._buildEmailXML(email).then((data)=>{
