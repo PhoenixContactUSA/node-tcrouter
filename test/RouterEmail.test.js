@@ -9,7 +9,7 @@ const mockRouter = net.createServer();
 
 const MOCK_DEVICE = {ip:'127.0.0.1',port: 8884};
 
-describe('SendSMS test cases', function(){
+describe('SendEmail test cases', function(){
 
     it('Sends an accurately formed Email message to the TC Router Socket',function(done){        
 
@@ -31,6 +31,22 @@ describe('SendSMS test cases', function(){
                 done();
             })
         })
-    })
+    });
+
+    it('Parses an xml email success response and returns a success response', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 1,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><result><email>done</email></result>`)
+        .then((res)=>{
+            expect(res);
+            expect(res.success).to.equal(true);
+            done();
+        })
+        .catch((e)=>{
+            expect.fail();
+            done();
+        })
+
+    });
 
 });
