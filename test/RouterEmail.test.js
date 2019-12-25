@@ -61,6 +61,20 @@ describe('SendEmail test cases', function(){
             expect(e).to.exist;
             done();
         })
+    });
+
+    it('Handles no result field',function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 3,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><email>done</email>`)
+        .then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        });
     })
 
 });
