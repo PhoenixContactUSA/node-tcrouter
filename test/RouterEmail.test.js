@@ -9,7 +9,21 @@ const mockRouter = net.createServer();
 
 const MOCK_DEVICE = {ip:'127.0.0.1',port: 8884};
 
-describe('SendSMS test cases', function(){
+describe('SendEmail test cases', function(){
+
+    it('Throws an error if the email input is bad',function(done){
+        var routerEmail = new RouterEmail(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+        routerEmail.sendEmail('','bloop','blop').then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+
+
+    })
 
     it('Sends an accurately formed Email message to the TC Router Socket',function(done){        
 
@@ -30,6 +44,82 @@ describe('SendSMS test cases', function(){
                 expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<email to="ddd@ddd.com">\n  <subject>TC Router Email Test</subject>\n  <body>Hello World Email</body>\n</email>`)
                 done();
             })
+        })
+    });
+
+    it('Parses an xml email success response and returns a success response', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 1,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><result><email>done</email></result>`)
+        .then((res)=>{
+            expect(res);
+            expect(res.success).to.equal(true);
+            done();
+        })
+        .catch((e)=>{
+            expect.fail();
+            done();
+        })
+
+    });
+
+    it('Parsing function throws a rejection on bad xml object',function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 2,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“esul<email>done</email></result>`)
+        .then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+    });
+
+    it('Handles no result field',function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 3,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><email>done</email>`)
+        .then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        });
+    })
+
+    it('Handles no email field', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 4,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?><result>done</result>`)
+        .then((res)=>{
+            expect.fail();
+            done();
+        })
+        .catch((e)=>{
+            expect(e).to.exist;
+            done();
+        })
+    })
+
+    it('Parses a failure message from the router if email send failed', function(done){
+        const routerEmail = new RouterEmail(MOCK_DEVICE.port + 4,MOCK_DEVICE.ip,3000);
+
+        routerEmail.constructor._parseSentEmailResponse(`<?xml version=“1.0“ encoding=“UTF-8“?>
+        <result>
+        <email error="3">transmission failed</email>
+        </result>`)
+        .then((res)=>{
+            expect(res.success).to.equal(false);
+            expect(res.message).to.equal("transmission failed");
+            done();
+        })
+        .catch((e)=>{
+            expect.fail();
+            done();
         })
     })
 

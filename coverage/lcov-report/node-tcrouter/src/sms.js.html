@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for RouterMessage.js</title>
+    <title>Code coverage report for node-tcrouter/src/sms.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="index.html">All files</a> RouterMessage.js
+      <a href="../../index.html">All files</a> / <a href="index.html">node-tcrouter/src</a> sms.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.71% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>12/14</span>
-      </div>
-      <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>13/13</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">83.33% </span>
-        <span class="quiet">Functions</span>
+        <span class="quiet">Branches</span>
         <span class='fraction'>5/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">85.71% </span>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/14</span>
+        <span class='fraction'>13/13</span>
       </div>
     </div>
     <p class="quiet">
@@ -75,74 +75,83 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const net = require("net");
-const {PromiseSocket, TimeoutError} = require("promise-socket");
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+const phone = require('phone');
 &nbsp;
-class RouterMessage {
-    constructor(port,ip,timeout){
-        this.ip = ip;
-        this.port = port;
-        this.timeout = timeout;
+//object for managing sms validation and cleaning
+class SMS {
+    constructor(contacts,content){
+        let arr = contacts.split(',');
+        let numbers = [];
+        arr.forEach(function(contact,index){
+            var res = phone(contact);
+            if (res === undefined || res.length == 0){
+                throw new Error('Phone number ' + contact + ' is invalid')
+            }else{
+                numbers.push(res[0]);
+            }
+        });
+        this.contacts = numbers;
+        this.content = content;
+        this.multipleContacts = (numbers.length &gt; 1) ? <span class="branch-0 cbranch-no" title="branch not covered" >true:</span>false
     }
 &nbsp;
-    async connect(){
-        return new Promise((resolve,reject)=&gt;{
-            //if socket is connected, just resolve
-            let _netSocket = new net.Socket();
-            let client = new PromiseSocket(_netSocket)
-            client.connect(this.port,this.ip).then(()=&gt;{
-                resolve(client);
-            }).catch((e)=&gt;{
-                reject(e);
-            });
-        })
+    getJSON(){
+        return {
+            contactsArr:        this.contacts,
+            contactsCS:         this.contacts.join(','),
+            content:            this.content,
+            multipleContacts:   this.multipleContacts
+        }
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    do</span>ne(client){
-<span class="cstat-no" title="statement not covered" >        client.destroy();</span>
-<span class="cstat-no" title="statement not covered" >        client = null;</span>
-    }
 }
 &nbsp;
-module.exports = RouterMessage;</pre></td></tr>
+module.exports = SMS;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 24 2019 17:40:44 GMT-0800 (Pacific Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Dec 24 2019 17:21:21 GMT-0800 (Pacific Standard Time)
 </div>
 </div>
-<script src="prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -150,7 +159,7 @@ window.onload = function () {
         }
 };
 </script>
-<script src="sorter.js"></script>
-<script src="block-navigation.js"></script>
+<script src="../../sorter.js"></script>
+<script src="../../block-navigation.js"></script>
 </body>
 </html>

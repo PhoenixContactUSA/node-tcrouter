@@ -26,7 +26,7 @@ class RouterEmail extends RouterMessage {
             try {
                 email = new Email(to,subject,body,cc);
             } catch (error) {
-                reject('Failed to build email from source',error);
+                reject(error);
             }
 
             return resolve(this.constructor._buildEmailXML(email).then((data)=>{
@@ -77,7 +77,7 @@ class RouterEmail extends RouterMessage {
                             message: message
                         };
                         
-                        resolve('Email send failed',res);
+                        resolve(res);
                         
                     }else{
                         if (o === 'done'){
@@ -94,6 +94,7 @@ class RouterEmail extends RouterMessage {
             
     
         })
+
     }
 
      /**
