@@ -156,6 +156,26 @@ describe('RouterInfo test cases', function(){
         expect(im._infoPacketToString()).to.equal("Unknown state");
 
         done();
+    });
+
+    it('Can convert sim status to string',function(done){
+        const im = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+        im.info.radio.simstatus.value = 0;
+        expect(im._simStatusToString()).to.equal("Unknown");
+        im.info.radio.simstatus.value = 1;
+        expect(im._simStatusToString()).to.equal("No SIM card");
+        im.info.radio.simstatus.value = 2;
+        expect(im._simStatusToString()).to.equal("Waiting for PIN");
+        im.info.radio.simstatus.value = 3;
+        expect(im._simStatusToString()).to.equal("Incorrect PIN entered");
+        im.info.radio.simstatus.value = 4;
+        expect(im._simStatusToString()).to.equal("Waiting for PUK");
+        im.info.radio.simstatus.value = 5;
+        expect(im._simStatusToString()).to.equal("Ready");
+        im.info.radio.simstatus.value = 6;
+        expect(im._simStatusToString()).to.equal("Unknown state");
+
+        done();
     })
 
 });

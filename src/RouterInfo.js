@@ -241,24 +241,18 @@ class RouterInfo extends RouterMessage {
         switch (int) {
             case 0:
                 return "Unknown";
-                break;
             case 1:
                 return "No SIM card";
-                break;
             case 2:
                 return "Waiting for PIN";
-                break;
             case 3:
                 return "Incorrect PIN entered";
-                break;
             case 4:
                 return "Waiting for PUK";
-                break;
             case 5:
                 return "Ready";
-                break;
             default:
-                break;
+                return "Unknown state";
         }
     } 
 
