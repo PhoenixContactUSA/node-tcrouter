@@ -102,6 +102,24 @@ describe('RouterInfo test cases', function(){
 
     });
 
+    it('CREG function converts creg value to string', function(done){
+        const im = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+        im.info.radio.creg.value = 0;
+        expect(im._cregToString()).to.equal("Not registered, not searching for cellular network");
+        im.info.radio.creg.value = 1;
+        expect(im._cregToString()).to.equal("Registered in home network");
+        im.info.radio.creg.value = 2;
+        expect(im._cregToString()).to.equal("Not registered yet, searching for cellular network");
+        im.info.radio.creg.value = 3;
+        expect(im._cregToString()).to.equal("Registration rejected");
+        im.info.radio.creg.value = 4;
+        expect(im._cregToString()).to.equal("Not used");
+        im.info.radio.creg.value = 5;
+        expect(im._cregToString()).to.equal("Registration in another network (roaming)");
+
+        done();
+    })
+
 });
 
 
