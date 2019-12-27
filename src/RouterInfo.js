@@ -210,33 +210,24 @@ class RouterInfo extends RouterMessage {
         switch (int) {
             case 0:
                 return "Offline (no internet connection)";
-                break;
             case 1:
                 return "Online (internet connection)";
-                break;
             case 2:
                 return "GPRS online";
-                break;
             case 3:
                 return "EDGE online";
-                break;
             case 4:
                 return "UMTS online";
-                break;
             case 5:
                 return "HSDPA online";
-                break;
             case 6:
                 return "HSUPA online";
-                break;
             case 7:
                 return "HSDPA+HSUPA online";
-                break;
             case 8:
                 return "LTE online";
-                break;
             default:
-                break;
+                return "Unknown state";
         }
     }
 

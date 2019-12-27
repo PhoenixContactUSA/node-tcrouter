@@ -130,6 +130,32 @@ describe('RouterInfo test cases', function(){
         expect(im._cregToString()).to.equal("Unknown state");
 
         done();
+    });
+
+    it('Can convert info packet to string', function(done){
+        const im = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+        im.info.radio.packet.value = 0;
+        expect(im._infoPacketToString()).to.equal("Offline (no internet connection)");
+        im.info.radio.packet.value = 1;
+        expect(im._infoPacketToString()).to.equal("Online (internet connection)");
+        im.info.radio.packet.value = 2;
+        expect(im._infoPacketToString()).to.equal("GPRS online");
+        im.info.radio.packet.value = 3;
+        expect(im._infoPacketToString()).to.equal("EDGE online");
+        im.info.radio.packet.value = 4;
+        expect(im._infoPacketToString()).to.equal("UMTS online");
+        im.info.radio.packet.value = 5;
+        expect(im._infoPacketToString()).to.equal("HSDPA online");
+        im.info.radio.packet.value = 6;
+        expect(im._infoPacketToString()).to.equal("HSUPA online");
+        im.info.radio.packet.value = 7;
+        expect(im._infoPacketToString()).to.equal("HSDPA+HSUPA online");
+        im.info.radio.packet.value = 8;
+        expect(im._infoPacketToString()).to.equal("LTE online");
+        im.info.radio.packet.value = 9;
+        expect(im._infoPacketToString()).to.equal("Unknown state");
+
+        done();
     })
 
 });
