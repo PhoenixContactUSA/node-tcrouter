@@ -184,24 +184,18 @@ class RouterInfo extends RouterMessage {
         switch (key) {
             case 0:
                 return "Not registered, not searching for cellular network";
-                break;
             case 1:
                 return "Registered in home network";
-                break;
             case 2:
                 return "Not registered yet, searching for cellular network";
-                break;
             case 3:
                 return "Registration rejected";
-                break;
             case 4:
                 return "Not used";
-                break;
             case 5:
                 return "Registration in another network (roaming)";
-                break;
             default:
-                break;
+                return "Unknown state"
         }
 
     }

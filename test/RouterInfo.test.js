@@ -116,6 +116,8 @@ describe('RouterInfo test cases', function(){
         expect(im._cregToString()).to.equal("Not used");
         im.info.radio.creg.value = 5;
         expect(im._cregToString()).to.equal("Registration in another network (roaming)");
+        im.info.radio.creg.value = 6;
+        expect(im._cregToString()).to.equal("Unknown state");
 
         done();
     })
