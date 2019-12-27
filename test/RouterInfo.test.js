@@ -102,6 +102,16 @@ describe('RouterInfo test cases', function(){
 
     });
 
+    it('RSSI value of 99 returns not measured yet string',function(done){
+        const infoController = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+        infoController._parseInfoResponse(mockGetInfoResponse2).then(()=>{
+
+            expect(infoController._rssiToString()).to.equal("Not measured yet or unable to determine");
+            done();
+        })
+    })
+
     it('CREG function converts creg value to string', function(done){
         const im = new RouterInfo(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
         im.info.radio.creg.value = 0;
@@ -135,6 +145,35 @@ const mockGetInfoResponse = `<?xml version="1.0" encoding="UTF-8"?>
 </device>
 <radio><provider>Verizon</provider>
 <rssi>17</rssi>
+<creg>1</creg>
+<lac>0000</lac>
+<ci>00A02020</ci>
+<packet>8</packet>
+<simstatus>5</simstatus>
+<simselect>1</simselect>
+</radio>
+<inet><ip>100.69.140.34</ip>
+<rx_bytes>2217396</rx_bytes>
+<tx_bytes>2774096</tx_bytes>
+<mtu>1500</mtu>
+</inet>
+<io><gsm>on</gsm>
+<inet>on</inet>
+<vpn>off</vpn>
+</io>
+</info>
+</result>
+`;
+
+const mockGetInfoResponse2 = `<?xml version="1.0" encoding="UTF-8"?>
+<result><info><device><serialno>3034095087</serialno>
+<hardware>D</hardware>
+<firmware>2.05.2</firmware>
+<wbm>1.71.2</wbm>
+<imei>354228086778452</imei>
+</device>
+<radio><provider>Verizon</provider>
+<rssi>99</rssi>
 <creg>1</creg>
 <lac>0000</lac>
 <ci>00A02020</ci>
