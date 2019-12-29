@@ -116,4 +116,64 @@ describe("RouterIO test cases", function(done) {
       });
     });
   });
+
+  it('Can parse io xml response', function(done){
+    const ioc = new RouterIO(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+    ioc._parseIOResponse(`<?xml version="1.0" encoding="UTF-8"?><result><io><output no="1" value="off"/><input no="1" value="off"/><input no="2" value="off"/></io></result>`)
+    .then((res)=>{
+      expect(res.input[0].value).to.equal(false);
+      expect(res.input[1].value).to.equal(false);
+      expect(res.output[0].value).to.equal(false);
+      done();
+    })
+    .catch((e)=>{
+      expect.fail();
+      done();
+    })
+
+  })
+
+  it('Can parse gprs xml response',function(done){
+    const ioc = new RouterIO(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+    ioc._parseIOResponse(`<?xml version="1.0" encoding="UTF-8"?><result><io><gprs value="on"/></io></result>`)
+    .then((res)=>{
+      expect(res.gprs.value).to.equal(true);
+      done();
+    })
+    .catch((e)=>{
+      expect.fail();
+      done();
+    })
+
+  })
+
+  it('Handles malformed xml response object', function(done){
+    const ioc = new RouterIO(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+    ioc._parseIOResponse(`<?xml version="1.0" encoding="UTF-8"?><result><output no="1" value="off"/><input no="1" value="off"/><input no="2" value="off"/></io></result>`)
+    .then((res)=>{
+      expect.fail();
+      done();
+    })
+    .catch((e)=>{
+      expect(e).to.exist;
+      done();
+    })
+  })
+
+  it('Handles malformed xml response object with no result field', function(done){
+    const ioc = new RouterIO(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000);
+
+    ioc._parseIOResponse(`<?xml version="1.0" encoding="UTF-8"?><output no="1" value="off"/><input no="1" value="off"/><input no="2" value="off"/></io>`)
+    .then((res)=>{
+      expect.fail();
+      done();
+    })
+    .catch((e)=>{
+      expect(e).to.contain('TCRouter: parsed info data contains no <result> field');
+      done();
+    })
+  })
+
 });
