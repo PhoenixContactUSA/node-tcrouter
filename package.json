@@ -6,7 +6,6 @@
 	"scripts": {
 		"test": "nyc --reporter=lcov mocha --exit",
 		"coverage": "codecov",
-		"start": "node index.js --broker http://localhost:8080/conn",
 		"docs": "npm run docs-router && npm run docs-email && npm run docs-sms",
 		"docs-router": "jsdoc2md ./index.js > ./docs/TCRouter.md",
 		"docs-sms": "jsdoc2md ./src/sms.js > ./docs/sms.md",
