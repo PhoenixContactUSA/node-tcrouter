@@ -119,7 +119,7 @@ class RouterIO extends RouterMessage {
             return new Promise((resolve,reject)=>{
                 //walk the object and update the info param
                 if (!data.result){
-                    reject('TCRouter: parsed info data contains no <result> field',data);
+                    reject('TCRouter: parsed info data contains no <result> field\n'+data);
                 }else{
                     if (!data.result.io){
                         reject('TCRouter: parsed info data doesnt contain <io> field');
