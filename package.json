@@ -1,6 +1,6 @@
 {
 	"name": "@phoenixcontactusa/node-tcrouter",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "Communication and control of TC Router using socket server, XML api",
 	"main": "index.js",
 	"scripts": {
