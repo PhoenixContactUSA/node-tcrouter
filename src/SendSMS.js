@@ -61,7 +61,7 @@ class SendSMS extends RouterMessage {
                 res.success = true
             }else{
                 res.success = false
-                reject('Failed SMS Message: ' + message);
+                //reject('Failed SMS Message: ' + message);
             }
             resolve(res);
         }

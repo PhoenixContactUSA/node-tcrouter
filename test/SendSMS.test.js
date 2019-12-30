@@ -30,6 +30,38 @@ describe('SendSMS test cases', function(){
             })
         })
 
-    })
+    });
+
+    it('Parses sent sms success response xml',function(done){
+        let message = new SMS('2025550154','Hello from tcrouter-node');
+        var sms = new SendSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000,message);
+        sms.constructor._parseSentSMS_Response(`<?xml version="1.0"?><result><cmgs length="17">SMS transmitted</cmgs></result>`)
+        .then((res)=>{
+            expect(res.success).to.be.equal(true);
+            expect(res.message).to.be.equal("SMS transmitted");
+            expect(res.length).to.be.equal("17");
+            done();
+        }).catch((e)=>{
+            expect.fail();
+            done();
+        })
+        
+    });
+
+    it('Parses sent sms fail response xml',function(done){
+        let message = new SMS('2025550154','Hello from tcrouter-node');
+        var sms = new SendSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000,message);
+        sms.constructor._parseSentSMS_Response(`<?xml version="1.0"?><result><cmgs length="17">nope</cmgs></result>`)
+        .then((res)=>{
+            expect(res.success).to.be.equal(false);
+            expect(res.message).to.be.equal("nope");
+            expect(res.length).to.be.equal("17");
+            done();
+        }).catch((e)=>{
+            expect.fail();
+            done();
+        })
+        
+    });
 
 });
