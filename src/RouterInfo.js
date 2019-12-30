@@ -184,24 +184,18 @@ class RouterInfo extends RouterMessage {
         switch (key) {
             case 0:
                 return "Not registered, not searching for cellular network";
-                break;
             case 1:
                 return "Registered in home network";
-                break;
             case 2:
                 return "Not registered yet, searching for cellular network";
-                break;
             case 3:
                 return "Registration rejected";
-                break;
             case 4:
                 return "Not used";
-                break;
             case 5:
                 return "Registration in another network (roaming)";
-                break;
             default:
-                break;
+                return "Unknown state"
         }
 
     }
@@ -216,33 +210,24 @@ class RouterInfo extends RouterMessage {
         switch (int) {
             case 0:
                 return "Offline (no internet connection)";
-                break;
             case 1:
                 return "Online (internet connection)";
-                break;
             case 2:
                 return "GPRS online";
-                break;
             case 3:
                 return "EDGE online";
-                break;
             case 4:
                 return "UMTS online";
-                break;
             case 5:
                 return "HSDPA online";
-                break;
             case 6:
                 return "HSUPA online";
-                break;
             case 7:
                 return "HSDPA+HSUPA online";
-                break;
             case 8:
                 return "LTE online";
-                break;
             default:
-                break;
+                return "Unknown state";
         }
     }
 
@@ -256,24 +241,18 @@ class RouterInfo extends RouterMessage {
         switch (int) {
             case 0:
                 return "Unknown";
-                break;
             case 1:
                 return "No SIM card";
-                break;
             case 2:
                 return "Waiting for PIN";
-                break;
             case 3:
                 return "Incorrect PIN entered";
-                break;
             case 4:
                 return "Waiting for PUK";
-                break;
             case 5:
                 return "Ready";
-                break;
             default:
-                break;
+                return "Unknown state";
         }
     } 
 
