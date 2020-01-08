@@ -5,7 +5,7 @@ const RouterMessage = require('./RouterMessage');
 class RouterVPN extends RouterMessage {
     constructor(port,host,timeout){
         super(port,host,timeout)
-
+        this.controlVPN = this.controlVPN.bind(this);
     }
 
      /**
@@ -29,17 +29,18 @@ class RouterVPN extends RouterMessage {
                 }
                 element =  o + ' no="' + index + '" value="' + value + '"/>'
                 let message = XML.addHeader(element);
-                
-                return this.connect().then((client)=>{
-                    return client.write(message,'utf-8').then(()=>{
-                        return client.read(500).then((res)=>{
-                            this.done(client);
-                            return this._parseVPN_ActionRx(res.toString())
-                        })
-                    })
-                })
+                resolve(message);
 
             }
+        }).then((message)=>{
+            return this.connect().then((client)=>{
+                return client.write(message,'utf-8').then(()=>{
+                    return client.read(500).then((res)=>{
+                        this.done(client);
+                        return this.constructor._parseVPN_ActionRx(res.toString())
+                    })
+                })
+            })
         })
        
     }
