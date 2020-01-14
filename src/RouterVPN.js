@@ -27,7 +27,7 @@ class RouterVPN extends RouterMessage {
                 }else if (type === 2){
                     o = '<openvpn';
                 }
-                element =  o + ' no="' + index + '" value="' + value + '"/>'
+                element =  '<io>' + o + ' no="' + index + '" value="' + value + '"/></io>'
                 let message = XML.addHeader(element);
                 resolve(message);
 
@@ -58,8 +58,8 @@ class RouterVPN extends RouterMessage {
             if (!data.result){
                 reject('Parsed xml response data contains no <result> field',data);
             }else{
-                if (!data.result.vpn){
-                    reject('Parsed info data doesnt contain <vpn> field');
+                if (!data.result.io){
+                    reject('Parsed info data doesnt contain <io> field');
                 }else{
                     //walk the response object and update this.io
                     var res = {
@@ -67,15 +67,17 @@ class RouterVPN extends RouterMessage {
                         openvpn: new Array(10)
                     }
 
-                    let elements = data.result.vpn[0];
+                    let elements = data.result.io[0];
                     for (var child in elements){
                         var key = child;
                         if (key === "ipsec"){
-                            let index = parseInt(elements[child]['$']['no']);
-                            res["ipsec"][index].value = (elements[child]['$']['value'] === "on") ? true : false
+                            let index = parseInt(elements[child][0]['$']['no']);
+                            res["openvpn"][index] = {};
+                            res["ipsec"][index].value = (elements[child][0]['$']['value'] === "on") ? true : false
                         }else if (key === "openvpn"){
-                            let index = parseInt(elements[child]['$']['no']);
-                            res["openvpn"][index].value = (elements[child]['$']['value'] === "on") ? true : false
+                            let index = parseInt(elements[child][0]['$']['no']);
+                            res["openvpn"][index] = {};
+                            res["openvpn"][index].value = (elements[child][0]['$']['value'] === "on") ? true : false
                         }else{
                            reject('Unexpected field in vpn message');
                         }
