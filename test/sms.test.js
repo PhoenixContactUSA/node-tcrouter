@@ -12,6 +12,14 @@ describe('SMS() test cases', function(){
         expect(data.contactsCS).to.equal('+13613469364');
     });
 
+    it('handles an array of strings for contacts',()=>{
+        let contacts = ['361-346-9364','361-346-9365'];
+        let message = '';
+        var s = new SMS(contacts,message);
+        let data = s.getJSON();
+        expect(data.contactsCS).to.equal('+13613469364','+13613469365')
+    })
+
     //returns a sanitized US phone number
     it('Builds a json representation of a text message', function(){
         let contact = '361-346-9364';

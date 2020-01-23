@@ -4,7 +4,7 @@ const phone = require('phone');
 //object for managing sms validation and cleaning
 class SMS {
     constructor(contacts,content){
-        let arr = contacts.split(',');
+        let arr = Array.isArray(contacts) ? (contacts):(contacts.split(','));
         let numbers = [];
         arr.forEach(function(contact,index){
             var res = phone(contact);
