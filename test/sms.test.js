@@ -21,7 +21,7 @@ describe('SMS() test cases', function(){
     })
 
     it('handles an comma separated string for contacts',()=>{
-        let contacts = ['361-346-9364,361-346-9365'];
+        let contacts = '361-346-9364,361-346-9365';
         let message = '';
         var s = new SMS(contacts,message);
         let data = s.getJSON();
