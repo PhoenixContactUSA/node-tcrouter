@@ -17,7 +17,7 @@ describe('SMS() test cases', function(){
         let message = '';
         var s = new SMS(contacts,message);
         let data = s.getJSON();
-        expect(data.contactsCS).to.equal('+13613469364','+13613469365')
+        expect(data.contactsCS).to.equal('+13613469364,+13613469365')
     })
 
     //returns a sanitized US phone number
