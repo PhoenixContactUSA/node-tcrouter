@@ -32,6 +32,31 @@ describe('SendSMS test cases', function(){
 
     });
 
+    it('Sends multiple messages given multiple contacts',function(done){
+        var sentCount = 0;
+        let message = new SMS('2025550154,2025550155','Hello from tcrouter-node');
+
+        mockRouter.listen(MOCK_DEVICE.port,MOCK_DEVICE.ip,function(){
+            var sms = new SendSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000,message);
+            sms.send().then((success)=>{
+                console.log(success);
+            }).catch((e)=>{
+                console.log(e);
+            })
+        });
+        mockRouter.on('connection',function(socket){
+            socket.on('data',function(data){
+                sentCount++
+                if (sentCount === 1){
+                    expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+12025550154">Hello from tcrouter-node</cmgs>`)
+                }else if (sentCount === 2){
+                    expect(data.toString()).to.equal(`<?xml version="1.0"?>\n<cmgs destaddr="+12025550155">Hello from tcrouter-node</cmgs>`)
+                    done();
+                }
+            })
+        })
+    })
+
     it('Parses sent sms success response xml',function(done){
         let message = new SMS('2025550154','Hello from tcrouter-node');
         var sms = new SendSMS(MOCK_DEVICE.port,MOCK_DEVICE.ip,3000,message);
