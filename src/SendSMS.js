@@ -1,6 +1,7 @@
 //const Client = require('./TCP_Client');
 const builder = require('./Router_XML');
 const XML = new builder();
+const SMS = require('./sms');
 // const net = require("net");
 // const {PromiseSocket, TimeoutError} = require("promise-socket");
 const RouterMessage = require('./RouterMessage');
@@ -21,13 +22,40 @@ class SendSMS extends RouterMessage {
     }
 
     async send(){
-        return this.connect().then((client)=>{
-            client.write(SendSMS._buildSMS_XML(this.SMS),'utf-8')
-            return client.read(100).then((res)=>{
-                this.done(client);
-                return this.constructor._parseSentSMS_Response(res.toString())
-            })            
+        var messages = []
+
+        //for each contact, build a message
+        this.SMS.contacts.forEach((number)=>{
+            messages.push(new SMS(number,this.SMS.content))
         })
+        var results = [] 
+
+        messages.forEach((sms)=>{
+            const p = this.connect().then((client)=>{ 
+                return client.write(SendSMS._buildSMS_XML(sms),'utf-8').then(()=>{
+                return client.read(100).then((res)=>{    
+                    return this.constructor._parseSentSMS_Response(res.toString())
+                    this.done(client)
+                })
+            })
+            
+            })
+            results.push(p);        
+        })
+        return Promise.all(results).then((resArr)=>{
+             //append message details
+            
+             var result = {
+                "success": true
+             }
+             resArr.forEach((res,index)=>{
+                result[this.SMS.contacts[index]] = res;
+                if (res["success"] === false){
+                    result.success = false;
+                }
+             })
+             return result
+        })   
     }
 
     
