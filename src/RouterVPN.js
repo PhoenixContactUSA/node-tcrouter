@@ -5,7 +5,7 @@ const RouterMessage = require('./RouterMessage');
 class RouterVPN extends RouterMessage {
     constructor(port,host,timeout){
         super(port,host,timeout)
-
+        this.controlVPN = this.controlVPN.bind(this);
     }
 
      /**
@@ -27,19 +27,20 @@ class RouterVPN extends RouterMessage {
                 }else if (type === 2){
                     o = '<openvpn';
                 }
-                element =  o + ' no="' + index + '" value="' + value + '"/>'
+                element =  '<io>' + o + ' no="' + index + '" value="' + value + '"/></io>'
                 let message = XML.addHeader(element);
-                
-                return this.connect().then((client)=>{
-                    return client.write(message,'utf-8').then(()=>{
-                        return client.read(500).then((res)=>{
-                            this.done(client);
-                            return this._parseVPN_ActionRx(res.toString())
-                        })
-                    })
-                })
+                resolve(message);
 
             }
+        }).then((message)=>{
+            return this.connect().then((client)=>{
+                return client.write(message,'utf-8').then(()=>{
+                    return client.read(500).then((res)=>{
+                        this.done(client);
+                        return this.constructor._parseVPN_ActionRx(res.toString())
+                    })
+                })
+            })
         })
        
     }
@@ -57,30 +58,32 @@ class RouterVPN extends RouterMessage {
             if (!data.result){
                 reject('Parsed xml response data contains no <result> field',data);
             }else{
-                if (!data.result.vpn){
-                    reject('Parsed info data doesnt contain <vpn> field');
+                if (!data.result.io){
+                    reject('Parsed info data doesnt contain <io> field');
                 }else{
                     //walk the response object and update this.io
-                    var res = {
-                        ipsec: new Array(10),
-                        openvpn: new Array(10)
-                    }
+                    var res = {}
 
-                    let elements = data.result.vpn[0];
+                    let elements = data.result.io[0];
                     for (var child in elements){
                         var key = child;
                         if (key === "ipsec"){
-                            let index = parseInt(elements[child]['$']['no']);
-                            res["ipsec"][index].value = (elements[child]['$']['value'] === "on") ? true : false
+                            let index = parseInt(elements[child][0]['$']['no']);
+                            res.type = "ipsec"
+                            res.index = index
+                            res.state = (elements[child][0]['$']['value'] === "on") ? "on":"off";
+                            res.bState = (elements[child][0]['$']['value'] === "on") ? true : false;
                         }else if (key === "openvpn"){
-                            let index = parseInt(elements[child]['$']['no']);
-                            res["openvpn"][index].value = (elements[child]['$']['value'] === "on") ? true : false
+                            let index = parseInt(elements[child][0]['$']['no']);
+                            res.type = "openvpn";
+                            res.index = index;
+                            res.state = (elements[child][0]['$']['value'] === "on") ? "on":"off";
+                            res.bState = (elements[child][0]['$']['value'] === "on") ? true : false;
                         }else{
                            reject('Unexpected field in vpn message');
                         }
 
-                    }
-                    
+                    }                    
 
                     resolve(res);
                 }

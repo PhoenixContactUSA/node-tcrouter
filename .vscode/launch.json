@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/examples/sms.js",
+            "program": "${workspaceFolder}/examples/vpn.js",
         }
     ]
 }

@@ -360,7 +360,7 @@ class TCRouter {
      * @returns {Promise}
      */
     async controlVPN(type,index,state){
-        var vpn = new RouterVPN(type,index,state);
+        var vpn = new RouterVPN(this.client.port.value,this.client.ip.value,this.client.timeout.value);
         return vpn.controlVPN(type,index,state)
     }
 
