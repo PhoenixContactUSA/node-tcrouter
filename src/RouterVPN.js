@@ -62,28 +62,28 @@ class RouterVPN extends RouterMessage {
                     reject('Parsed info data doesnt contain <io> field');
                 }else{
                     //walk the response object and update this.io
-                    var res = {
-                        ipsec: new Array(10),
-                        openvpn: new Array(10)
-                    }
+                    var res = {}
 
                     let elements = data.result.io[0];
                     for (var child in elements){
                         var key = child;
                         if (key === "ipsec"){
                             let index = parseInt(elements[child][0]['$']['no']);
-                            res["openvpn"][index] = {};
-                            res["ipsec"][index].value = (elements[child][0]['$']['value'] === "on") ? true : false
+                            res.type = "ipsec"
+                            res.index = index
+                            res.state = (elements[child][0]['$']['value'] === "on") ? "on":"off";
+                            res.bState = (elements[child][0]['$']['value'] === "on") ? true : false;
                         }else if (key === "openvpn"){
                             let index = parseInt(elements[child][0]['$']['no']);
-                            res["openvpn"][index] = {};
-                            res["openvpn"][index].value = (elements[child][0]['$']['value'] === "on") ? true : false
+                            res.type = "openvpn";
+                            res.index = index;
+                            res.state = (elements[child][0]['$']['value'] === "on") ? "on":"off";
+                            res.bState = (elements[child][0]['$']['value'] === "on") ? true : false;
                         }else{
                            reject('Unexpected field in vpn message');
                         }
 
-                    }
-                    
+                    }                    
 
                     resolve(res);
                 }
