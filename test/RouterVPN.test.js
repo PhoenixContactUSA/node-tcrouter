@@ -12,7 +12,7 @@ describe("RouterVPN test cases", function() {
 
     mockRouter.listen(MOCK_DEVICE.port, MOCK_DEVICE.ip, function() {
       var IOController = new RouterVPN(MOCK_DEVICE.port, MOCK_DEVICE.ip, 3000);
-      IOController.controlVPN(1,0,true)
+      IOController.controlVPN(1,1,true)
         .then(success => {
           console.log(success);
         })
@@ -24,7 +24,7 @@ describe("RouterVPN test cases", function() {
     mockRouter.on("connection", function(socket) {
       socket.on("data", function(data) {
         expect(data.toString()).to.equal(
-          `<?xml version="1.0"?><ipsec no="0" value="on"/>`
+          `<?xml version="1.0"?><io><ipsec no="1" value="on"/></io>`
         );
         done();
       });
