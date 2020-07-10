@@ -17,7 +17,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"email-validator": "^2.0.4",
-		"npm": "^6.11.2",
+		"npm": "^6.14.6",
 		"phone": "^2.3.5",
 		"promise-socket": "^6.0.0",
 		"validate-ip-node": "^1.0.6",
