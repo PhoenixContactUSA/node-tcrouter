@@ -21,7 +21,7 @@
 		"phone": "^2.3.5",
 		"promise-socket": "^6.0.0",
 		"validate-ip-node": "^1.0.6",
-		"winston": "^3.1.0",
+		"winston": "^3.3.0",
 		"xml2js": "^0.4.19"
 	},
 	"devDependencies": {
